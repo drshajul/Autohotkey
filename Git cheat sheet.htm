@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Help.GitHub - Git cheat sheets</title>
+  <link href="http://github.com/stylesheets/bundle_common.css"
+ media="screen" rel="stylesheet" type="text/css" />
+  <link href="http://github.com/stylesheets/bundle_github.css"
+ media="screen" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="/css/style.css" type="text/css"
+ media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="/css/print.css" type="text/css"
+ media="print" />
+</head>
+<body>
+<script type="text/javascript">var main_category = "everyday_git"</script>
+<div id="main">
+<div id="header" class="basic">
+<div class="site">
+<div class="topsearch">
+<ul class="nav logged_out">
+  <li><a href="http://gitref.org/">Git Reference</a></li>
+  <li><a href="http://github.com/github/help.github.com#readme">Contribute</a></li>
+  <li><a href="http://support.github.com/">Support</a></li>
+  <li><a href="http://github.com/">Back to GitHub</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="content" class="site">
+<div id="guides">
+<div class="guide">
+<div class="main">
+<h1>Git cheat sheets</h1>
+<div class="wikistyle">
+<h3>Cheat sheets</h3>
+<ul>
+  <li>Alexander Zeitler&rsquo;s <a
+ href="http://github.com/AlexZeitler/gitcheatsheet">Git Cheat Sheet</a></li>
+  <li>Zach Rusin&rsquo;s <a
+ href="http://zrusin.blogspot.com/2007/09/git-cheat-sheet.html">Git
+Cheat Sheet</a></li>
+  <li><a href="http://cheat.errtheblog.com/s/git/">http://cheat.errtheblog.com/s/git/</a></li>
+  <li>Nate Murray&rsquo;s <a
+ href="http://www.xcombinator.com/2010/09/01/git-cheat-sheet-and-class-notes/">Git
+Cheat Sheet</a></li>
+</ul>
+<h3>A practical git guide</h3>
+<p><em>Notes extracted from git screencast at http://www.peepcode.com.</em></p>
+<h4>Configuration</h4>
+<p>identify yourself to git: email and your name</p>
+<p><code>git config --global user.name "David Beckwith"</code></p>
+<p><code>git config --global user.email "dbitsolutions</code><code>@gmail.com"</code></p>
+<p>To view all options:</p>
+<p><code>git config --list</code></p>
+<p>OR</p>
+<p><code>cat .git/config</code></p>
+<h4>Set up aliases</h4>
+<p><code>git config --global alias.co checkout</code></p>
+<h4>View your configuration</h4>
+<p><code>cat .gitconfig</code></p>
+<h4>To ignore whitespace (Ruby is whitespace insensitive)</h4>
+<p><code>git config --global apply.whitespace nowarn</code></p>
+<p>Some nice aliases:</p>
+<p>gb = git branch<br />
+gba = git branch -a<br />
+gc = git commit -v<br />
+gd = git diff | mate<br />
+gl = git pull<br />
+gp = git push<br />
+gst = git status</p>
+<h3>Start using git</h3>
+<p><code>git init</code></p>
+<h4>Ignoring files</h4>
+<p>Add a file in the root directory called <code>.gitignore</code> and
+add some files to it: (comments begin with hash)</p>
+*.log
+db/schema.rb
+db/schema.sql
+<p>Git automatically ignores empty directories. If you want to have a <code>log/</code>
+directory, but want to ignore all the files in it, add the following
+lines to the root <code>.gitignore</code>: (lines beginning with
+&lsquo;!&rsquo; are exceptions)</p>
+<p><code>log/*</code><br />
+<code>!.gitignore</code></p>
+<p>Then add an empty <code>.gitignore</code> in the empty directory:</p>
+<p><code>touch log/.gitignore</code></p>
+<h4>Scheduling the addition of all files to the next commit</h4>
+<p><code>git add .</code></p>
+<h4>Checking the status of your repository</h4>
+<p><code>git status</code></p>
+<h4>Committing files</h4>
+<p><code>git commit -m "First import"</code></p>
+<h4>Seeing what files have been committed</h4>
+<p><code>git ls-files</code></p>
+<h4>Scheduling deletion of a file</h4>
+<p><code>git rm [file name]</code></p>
+<h4>Committing all changes in a repository</h4>
+<p><code>git commit -a</code></p>
+<h4>Scheduling the addition of an individual file to the next commit</h4>
+<p><code>git add [file name]</code></p>
+<h4>Viewing the difference as you commit</h4>
+<p><code>git commit -v</code></p>
+<h4>Commit and type the message on the command line</h4>
+<p><code>git commit -m "This is the message describing the commit"</code></p>
+<h4>Commit and automatically get any other changes</h4>
+<p><code>git commit -a</code></p>
+<h4>A &ldquo;normal&rdquo; commit command</h4>
+<p><code>git commit -a -v</code></p>
+<h4>Viewing a log of your commits</h4>
+<p><code>git log</code></p>
+<h4>Viewing a log of your commits with a graph to show the changes</h4>
+<p><code>git log --stat</code></p>
+<h4>Viewing a log with pagination</h4>
+<p><code>git log -v</code></p>
+<h4>Visualizing git changes</h4>
+<p><code>gitk --all</code></p>
+<h4>Creating a new tag and pushing it to the remote branch</h4>
+<p><code>git tag "v1.3"</code><br />
+<code>git push --tags</code></p>
+<h4>Creating a new branch</h4>
+<p><code>git branch [name of your new branch]</code></p>
+<h4>Pushing the branch to a remote repository</h4>
+<p><code>git push origin [new-remote]</code></p>
+<h4>Pulling a new branch from a remote repository</h4>
+<p><code>git fetch origin [remote-branch]:[new-local-branch]</code></p>
+<h4>Viewing branches</h4>
+<p><code>git branch</code></p>
+<h4>Viewing a list of all existing branches</h4>
+<p><code>git branch -a</code></p>
+<h4>Switching to another branch</h4>
+<p>The state of your file system will change after executing this
+command.</p>
+<p><code>git checkout [name of the branch you want to switch to]</code></p>
+<p>OR</p>
+<p><code>git co [name of the branch you want to switch to]</code></p>
+<h4>Making sure changes on master appear in your branch</h4>
+<p><code>git rebase master</code></p>
+<h4>Merging a branch back into the master branch</h4>
+<p>First, switch back to the master branch:</p>
+<p><code>git co master</code></p>
+<p>Check to see what changes you&rsquo;re about to merge together,
+compare the two branches:</p>
+<p><code>git diff master xyz</code></p>
+<p>If you&rsquo;re in a branch that&rsquo;s not the <code>xyz</code>
+branch and want to merge the <code>xyz</code> branch into it:</p>
+<p><code>git merge xyz</code></p>
+<h4>Reverting changes to before said merge</h4>
+<p><code>git reset --hard ORIG_HEAD</code></p>
+<h4>Resolving conflicts</h4>
+<p>Remove the markings, add the file, then commit.</p>
+<h4>Creating a branch (and switching to the new branch) in one line</h4>
+<p><code>git checkout -b [name of new branch]</code></p>
+<h4>Creating a stash (like a clipboard) of changes to allow you to
+switch branches without committing</h4>
+<p><code>git stash save "Put a message here to remind you of what
+you're saving to the clipboard"</code></p>
+<h4>Switching from the current branch to another</h4>
+<p><code>git co [branch you want to switch to]</code></p>
+<p>Do whatever<br />
+Then switch back to the stashed branch</p>
+<p><code>git co [the stashed branch]</code></p>
+<h4>Viewing a list of stashes</h4>
+<p><code>git stash list</code></p>
+<h4>Loading back the stash</h4>
+<p><code>git stash apply</code></p>
+<p>Now you can continue to work where you were previously.</p>
+<h4>Deleting a branch (that has been merged back at some point)</h4>
+<p><code>git branch -d [name of branch you want to delete]</code></p>
+<h4>Deleting an unmerged branch</h4>
+<p><code>git branch -D [name of branch you want to delete]</code></p>
+<h4>Deleting a stash</h4>
+<p><code>git stash clear</code></p>
+<h4>Setting up a repository for use on a remote server</h4>
+<p>Copy up your repository. e.g.:</p>
+<p><code>scp -r my_project deploy</code><code>@yourbox.com:my_project</code></p>
+<p>Move your files on the remote server to <code>/var/git/my_project</code><br />
+For security make the owner of this project git<br />
+On the repository server:</p>
+<p><code>sudo chown -R git:git my_project</code></p>
+<p>Then (for security) restrict the &ldquo;deploy&rdquo; user to doing
+git-related things in <code>/etc/passwd</code> with a <code>git-shell</code>.</p>
+<h4>Checking out a git repository from a remote to your local storage</h4>
+<code>git clone git</code><code>@yourbox.com:/var/git/my_project</code>
+<h4>Viewing extra info about a remote repository</h4>
+<p><code>cat .git/config</code></p>
+<p>By virtue of having cloned the remote repository, your local
+repository becomes the slave and will track and synchronize with the
+remote master branch.</p>
+<h4>Updating a local branch from the remote server</h4>
+<p><code>git pull</code></p>
+<h4>Downloading a copy of an entire repository (e.g. <code>laptop</code>)
+without merging into your local branch</h4>
+<p><code>git fetch laptop</code></p>
+<h4>Merging two local branches (ie. your local xyz branch with your
+local master branch) <span class="caps">USE</span> <span class="caps">MERGE</span></h4>
+<p><code>git merge laptop/xyz</code></p>
+<p>This merged the (already copied laptop repository&rsquo;s xyz
+branch) with the current branch you&rsquo;re sitting in.</p>
+<h4>Viewing metadata about a remote repository</h4>
+<p><code>git remote show laptop</code></p>
+<h4>Pushing a committed local change from one local branch to another
+remote branch</h4>
+<p><code>git push laptop xyz</code></p>
+<h4>Creating a tracking branch (i.e. to link a local branch to a remote
+branch)</h4>
+<p><code>git branch --track local_branch remote_branch</code></p>
+<p>You do not need to specify the local branch if you are already
+sitting in it.</p>
+<p><code>git pull</code></p>
+<p>Note: You can track(link) different local branches to different
+remote machines. For example, you can track your friend&rsquo;s
+&ldquo;upgrade&rdquo; branch with your &ldquo;bobs_upgrade&rdquo;
+branch, and simultaneously you can track the origin&rsquo;s
+&ldquo;master&rdquo; branch (of your main webserver) with your local
+&ldquo;master&rdquo; branch.</p>
+<p>By convention, &lsquo;origin&rsquo; is the local name given to the
+remote centralized server which is the way <span class="caps">SVN</span>
+is usually set up on a remote server.</p>
+<h4>Seeing which local branches are tracking a remote branch</h4>
+<p><code>git remote show origin</code></p>
+<h4>Working with a remote Subversion repository (but with git locally)</h4>
+<p><code>git-svn clone [http location of an svn repository]</code></p>
+<p>Now you can work with the checked out directory as though it was a
+git repository. (cuz it is)</p>
+<h4>Pushing (committing) changes to a remote Subversion repository</h4>
+<p><code>git-svn dcommit</code></p>
+<h4>Updating a local git repository from a remote Subversion repository</h4>
+<p><code>git-svn rebase</code></p>
+<p><span class="caps">NOTE</span>: make sure you have your perl
+bindings to your local svn installation.</p>
+<h4>I screwed up, how do I reset my checkout?</h4>
+<p><code>git checkout -f</code></p>
+<h3>See also</h3>
+<ul>
+  <li><a href="http://eagain.net/articles/git-for-computer-scientists/"
+ title="lots of pictures">Git for computer scientists.</a></li>
+  <li><a
+ href="http://www.kernel.org/pub/software/scm/git/docs/user-manual.html">Git
+user&rsquo;s manual</a></li>
+  <li><a href="http://www-cs-students.stanford.edu/%7Eblynn/gitmagic/">Git
+Magic</a></li>
+  <li><a href="http://devcheatsheet.com/tag/git/">Git Cheat Sheets
+Collection</a> on DevCheatSheet.com</li>
+</ul>
+</div>
+</div>
+</div>
+<br />
+</div>
+</div>
+<div class="push"></div>
+</div>
+<div id="footer">
+<div class="site">
+<div class="info">
+<div class="links"> <a href="http://github.com/blog"><b>Blog</b></a> |
+<a href="http://support.github.com/">Support</a> | <a
+ href="http://github.com/training">Training</a> | <a
+ href="http://github.com/contact">Contact</a> | <a
+ href="http://develop.github.com">API</a> | <a
+ href="http://status.github.com">Status</a> | <a
+ href="http://twitter.com/github">Twitter</a> | <a
+ href="http://gitref.org">Learn</a> | <a
+ href="http://github.com/security">Security</a> </div>
+<div class="company"> &copy; 2010 GitHub Inc. All rights reserved. | <a
+ href="http://github.com/site/terms">Terms of Service</a> | <a
+ href="http://github.com/site/privacy">Privacy Policy</a> </div>
+</div>
+</div>
+</div>
+</body>
+</html>
