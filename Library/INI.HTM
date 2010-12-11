@@ -1,0 +1,602 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="Generator" content="XN-Docs v2.03 (http://ccgi.inspiration3.plus.com/ahk/xn-docs/)" />
+    <title>INI Library</title>
+    <style type="text/css" media="all">
+/*<![CDATA[*/
+html {
+	color: #333;
+	background: #fff;
+	font: .9em Calibri, Arial, Helvetica, sans-serif;
+}
+body { margin: 0em; }
+h1 {
+	margin: 0em;
+	color: #fff;
+	background: #333;
+	padding: .2em .5em;
+	border-bottom: 1px solid #000;
+}
+h1 a {
+	color: #fff !important;
+	background: inherit;
+	text-decoration: none;
+}
+h2 { border-bottom: 1px solid #ddd; }
+h3.command {
+	background: #09c;
+	padding: .7em;
+	color: #fff;
+	cursor: help;
+	letter-spacing: .1em;
+	font: bold 1.2em "Courier New", Courier, monospace;
+}
+a { color: #06c; }
+a:hover { color: #936; }
+table { font-size: 1em; }
+p.descr {
+	margin: 1.5em;
+	line-height: 1.5;
+}
+span.sub {
+	color: #666;
+	background: inherit;
+}
+p.descr span.sub:before { content: ">> "; }
+table.params span.sub {
+	font-size: .75em;
+	margin-right: .5em;
+}
+div#contents {
+	width: 12%;
+	float: right;
+	border-left: 1px dashed #ddd;
+	padding-right: 2%;
+	margin-top: 2em;
+	overflow: auto;
+	padding-left: 2%;
+}
+div#contents div { margin-left: 1em; }
+div#contents ul {
+	list-style: square;
+	padding-left: 1em;
+}
+div#contents *:first-child { margin-top: 0em; }
+div#page {
+	width: 80%;
+	margin: 1.5%;
+}
+div#page > div:not(:target) { display: none; }
+div#page > div:target { display: block; }
+div.method {
+	background: #fefefe;
+	border: 1px solid #eee;
+	margin-bottom: 2em;
+	margin-left: 0.5em;
+	padding: 1em;
+}
+div.method *:first-child { margin-top: 0em; }
+div#end {
+	font-size: .9em;
+	margin-top: 1em;
+	border-top: 1px solid #000;
+	padding: 1em;
+	color: #fff;
+	background: #666;
+}
+div#end a { color: #fff; }
+span.vers {
+	font-size: .6em;
+	color: #ccc;
+	padding-left: .3em;
+}
+table.params {
+	font-size: 1em;
+	margin-left: 3em;
+}
+table.params th {
+	text-align: left;
+	background: #eee;
+	padding: .2em;
+}
+table.params td {
+	vertical-align: top;
+	padding: .2em 1em .2em .5em;
+	background: #fff;
+	border: 1px solid #f3f3f3;
+}
+table.params td:first-child { background: #f3f3f3 !important; }
+table.params tr.returns td { background: #f3f3f3; }
+table.params tr.returns td:first-child { background: #fff !important; }
+table.dataset { margin-left: 3em; }
+table.dataset th {
+	background: #eee;
+	text-align: left;
+	padding: .2em;
+}
+table.dataset td {
+	vertical-align: top;
+	padding: .2em 1em .2em .5em;
+}
+pre.code {
+	padding: 1em;
+	font-size: 1em;
+	border: 1px dotted #999;
+	background: #fff;
+	margin-left: 2em;
+	overflow: auto;
+}
+code, pre.code, kbd { font: .9em "Courier New", Courier, monospace; }
+pre.code em, code em {
+	color: #060;
+	font-style: normal;
+	font-weight: bold;
+}
+pre.code kbd, code kbd {
+	color: #c00;
+	font-weight: normal;
+}
+pre.code var, code var {
+	font-style: normal;
+	font-weight: bold;
+	color: #f80;
+}
+pre.code var.prc, code var.prc {
+	font-weight: normal;
+	color: #f00;
+	font-style: italic;
+}
+pre.code strong, code strong { color: #039; }
+pre.code strong.res, code strong.res { color: #800000; }
+@media print {
+	* {
+		background: none !important;
+		color: #000 !important;
+	}
+	p.descr span.sub, div#contents { display: none; }
+	div#page { width: 100%; }
+	div#page > div:not(:target) { display: block; }
+	table.params, pre.code { margin: 0em; }
+	div.method {
+		border: none;
+		margin: 1em 0em;
+		padding: 0em;
+	}
+	pre.code { overflow: visible; }
+}
+/*]]>*/
+    </style>
+    <script type="text/javascript">
+/*<![CDATA[*/
+function tabsetup() {
+var a = document.getElementById('contents').getElementsByTagName('a'), i;
+	tabswitch(window.location.hash);
+	for (i in a) { a[i].onclick = tabswitch; }
+}
+function tabswitch(e) {
+	var d = document.getElementById('page').getElementsByTagName('div'),
+		h = typeof(e) == 'string' ? e : this.hash, id = h ? h.slice(1) : '', i;
+	for (i = 0; i < d.length; i++) { if (d[i].className == 'method') { d[i].style.display = 'none'; } }
+	if (id) { document.getElementById(id).style.display = 'block'; }
+}
+if (window.attachEvent) { window.attachEvent('onload', tabsetup); }
+/*]]>*/
+    </script>
+  </head>
+  <body>
+    <h1>
+      <a href="ini.ahk">INI Library</a><span class="vers"> (version 1.08)</span></h1>
+    <div id="contents">
+      <div>
+        <h4>Contents</h4>
+        <ul>
+          <li>
+            <a href="#ini_Read">ini_Read</a>
+          </li>
+          <li>
+            <a href="#ini_Delete">ini_Delete</a>
+          </li>
+          <li>
+            <a href="#ini_Write">ini_Write</a>
+          </li>
+          <li>
+            <a href="#ini_MoveKey">ini_MoveKey</a>
+          </li>
+          <li>
+            <a href="#ini_FindKeysRE">ini_FindKeysRE</a>
+          </li>
+          <li>
+            <a href="#ini_GetKeys">ini_GetKeys</a>
+          </li>
+          <li>
+            <a href="#ini_FindSectionsRE">ini_FindSectionsRE</a>
+          </li>
+          <li>
+            <a href="#ini_GetSections">ini_GetSections</a>
+          </li>
+          <li>
+            <a href="#ini_MergeSections">ini_MergeSections</a>
+          </li>
+          <li>
+            <a href="#ini_DeleteSection">ini_DeleteSection</a>
+          </li>
+          <li>
+            <a href="#ini_Duplicate">ini_Duplicate</a>
+          </li>
+          <li>
+            <a href="#ini_ToXML">ini_ToXML</a>
+          </li>
+          <li>
+            <a href="#ini_Save">ini_Save</a>
+          </li>
+          <li>
+            <a href="#ini_Load">ini_Load</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <p class="descr">A set of functions for modifying INI files in memory and writing them later to file. Useful for parsing a large data sets with minimal disk reads.<br /><span class="sub">Browse through the topics in the contents list to the right.</span></p>
+    <div id="page">
+      <div class="method" id="ini_Read">
+        <h2>ini_Read</h2>
+        <p>Get the value of a key within a specifed section.</p>
+        <h3 class="command">ini_Read(var, sec, key, default)</h3>
+        <h4>Parameters</h4>
+        <table class="params">
+          <tr class="returns">
+            <td>
+              <em>Returns</em>
+            </td>
+            <td>Key value.</td>
+          </tr>
+          <tr>
+            <td>var</td>
+            <td>ini object</td>
+          </tr>
+          <tr>
+            <td>sec</td>
+            <td>name of section to look under</td>
+          </tr>
+          <tr>
+            <td>key</td>
+            <td>key name</td>
+          </tr>
+          <tr>
+            <td>default</td>
+            <td><span class="sub">(optional)</span>value to return if key was not found</td>
+          </tr>
+        </table>
+        <h4>Example</h4>
+        <pre class="code">ini_Load(phpconfig, ProgramFiles . "\PHP\php.ini")<em>; load INI file</em>
+<em>; read variable under section named "MySQL":</em>
+links := ini_Read(phpconfig, "MySQL", "mysql.max_links")
+MsgBox, %links%</pre>
+      </div>
+      <div class="method" id="ini_Delete">
+        <h2>ini_Delete</h2>
+        <p>Removes a key within a specifed section.</p>
+        <h3 class="command">ini_Delete(var, sec, key)</h3>
+        <h4>Parameters</h4>
+        <table class="params">
+          <tr>
+            <td>var</td>
+            <td>ini object</td>
+          </tr>
+          <tr>
+            <td>sec</td>
+            <td>name of section to  look under</td>
+          </tr>
+          <tr>
+            <td>key</td>
+            <td>key name</td>
+          </tr>
+        </table>
+      </div>
+      <div class="method" id="ini_Write">
+        <h2>ini_Write</h2>
+        <p>Change the value of a key within a section or create one if it does not exist.</p>
+        <h3 class="command">ini_Write(var, sec, key, value)</h3>
+        <h4>Parameters</h4>
+        <table class="params">
+          <tr class="returns">
+            <td>
+              <em>Returns</em>
+            </td>
+            <td>Key value.</td>
+          </tr>
+          <tr>
+            <td>var</td>
+            <td>ini object</td>
+          </tr>
+          <tr>
+            <td>sec</td>
+            <td>name of section to look under</td>
+          </tr>
+          <tr>
+            <td>key</td>
+            <td>key name</td>
+          </tr>
+          <tr>
+            <td>value</td>
+            <td>a string to store as the keys content</td>
+          </tr>
+        </table>
+      </div>
+      <div class="method" id="ini_MoveKey">
+        <h2>ini_MoveKey</h2>
+        <p>Copies or moves a key and its value from one section to another.</p>
+        <h3 class="command">ini_MoveKey(var, from, to, copy)</h3>
+        <h4>Parameters</h4>
+        <table class="params">
+          <tr class="returns">
+            <td>
+              <em>Returns</em>
+            </td>
+            <td>True if the key was found and moved.</td>
+          </tr>
+          <tr>
+            <td>var</td>
+            <td>ini object</td>
+          </tr>
+          <tr>
+            <td>from</td>
+            <td>name of parent section to the specified key</td>
+          </tr>
+          <tr>
+            <td>to</td>
+            <td>section to inherit the new key</td>
+          </tr>
+          <tr>
+            <td>copy</td>
+            <td>true to remove the old key, false otherwise</td>
+          </tr>
+        </table>
+      </div>
+      <div class="method" id="ini_FindKeysRE">
+        <h2>ini_FindKeysRE</h2>
+        <p>Get a list of key names for a section from a regular expression.</p>
+        <h3 class="command">ini_FindKeysRE(var, sec, exp)</h3>
+        <h4>Parameters</h4>
+        <table class="params">
+          <tr class="returns">
+            <td>
+              <em>Returns</em>
+            </td>
+            <td>List of `n (LF) delimited key names.</td>
+          </tr>
+          <tr>
+            <td>var</td>
+            <td>ini object</td>
+          </tr>
+          <tr>
+            <td>sec</td>
+            <td>name of section to look under</td>
+          </tr>
+          <tr>
+            <td>exp</td>
+            <td>regular expression for key name</td>
+          </tr>
+        </table>
+      </div>
+      <div class="method" id="ini_GetKeys">
+        <h2>ini_GetKeys</h2>
+        <p>Get a list of key names for a section.</p>
+        <h3 class="command">ini_GetKeys(var, sec)</h3>
+        <h4>Parameters</h4>
+        <table class="params">
+          <tr class="returns">
+            <td>
+              <em>Returns</em>
+            </td>
+            <td>List of `n (LF) delimited key names.</td>
+          </tr>
+          <tr>
+            <td>var</td>
+            <td>ini object</td>
+          </tr>
+          <tr>
+            <td>sec</td>
+            <td>name of section to look under</td>
+          </tr>
+        </table>
+      </div>
+      <div class="method" id="ini_FindSectionsRE">
+        <h2>ini_FindSectionsRE</h2>
+        <p>Get a list of section names that match a regular expression.</p>
+        <h3 class="command">ini_FindSectionsRE(var, exp)</h3>
+        <h4>Parameters</h4>
+        <table class="params">
+          <tr class="returns">
+            <td>
+              <em>Returns</em>
+            </td>
+            <td>List of `n (LF) delimited section names.</td>
+          </tr>
+          <tr>
+            <td>var</td>
+            <td>ini object</td>
+          </tr>
+          <tr>
+            <td>exp</td>
+            <td>regular expression for section names</td>
+          </tr>
+        </table>
+      </div>
+      <div class="method" id="ini_GetSections">
+        <h2>ini_GetSections</h2>
+        <p>Get the complete list of sections.</p>
+        <h3 class="command">ini_GetSections(var)</h3>
+        <h4>Parameters</h4>
+        <table class="params">
+          <tr class="returns">
+            <td>
+              <em>Returns</em>
+            </td>
+            <td>List of `n (LF) delimited section names.</td>
+          </tr>
+          <tr>
+            <td>var</td>
+            <td>ini object</td>
+          </tr>
+        </table>
+      </div>
+      <div class="method" id="ini_MergeSections">
+        <h2>ini_MergeSections</h2>
+        <p>Merges two sections.</p>
+        <h3 class="command">ini_MergeSections(var, from, to, replace)</h3>
+        <h4>Parameters</h4>
+        <table class="params">
+          <tr class="returns">
+            <td>
+              <em>Returns</em>
+            </td>
+            <td>Number of keys moved.</td>
+          </tr>
+          <tr>
+            <td>var</td>
+            <td>ini object</td>
+          </tr>
+          <tr>
+            <td>from</td>
+            <td>section to move</td>
+          </tr>
+          <tr>
+            <td>to</td>
+            <td>section to inherit new keys</td>
+          </tr>
+          <tr>
+            <td>replace</td>
+            <td>true to replace existing keys from the destination section</td>
+          </tr>
+        </table>
+      </div>
+      <div class="method" id="ini_DeleteSection">
+        <h2>ini_DeleteSection</h2>
+        <p>Get the complete list of sections.</p>
+        <h3 class="command">ini_DeleteSection(var, sec)</h3>
+        <h4>Parameters</h4>
+        <table class="params">
+          <tr class="returns">
+            <td>
+              <em>Returns</em>
+            </td>
+            <td>Number of child keys removed.*</td>
+          </tr>
+          <tr>
+            <td>var</td>
+            <td>ini object</td>
+          </tr>
+          <tr>
+            <td>sec</td>
+            <td>name of section</td>
+          </tr>
+        </table>
+      </div>
+      <div class="method" id="ini_Duplicate">
+        <h2>ini_Duplicate</h2>
+        <p>Copies the INI variable to another.</p>
+        <h3 class="command">ini_Duplicate(var, newVar)</h3>
+        <h4>Parameters</h4>
+        <table class="params">
+          <tr class="returns">
+            <td>
+              <em>Returns</em>
+            </td>
+            <td>True if data was copied successfully, flase otherwise.</td>
+          </tr>
+          <tr>
+            <td>var</td>
+            <td>ini object</td>
+          </tr>
+          <tr>
+            <td>newVar</td>
+            <td>new ini object</td>
+          </tr>
+        </table>
+      </div>
+      <div class="method" id="ini_ToXML">
+        <h2>ini_ToXML</h2>
+        <p>Converts the INI structure to XML.</p>
+        <h3 class="command">ini_ToXML(var, ind, root)</h3>
+        <h4>Parameters</h4>
+        <table class="params">
+          <tr class="returns">
+            <td>
+              <em>Returns</em>
+            </td>
+            <td>An XML document.</td>
+          </tr>
+          <tr>
+            <td>var</td>
+            <td>ini object</td>
+          </tr>
+          <tr>
+            <td>ind</td>
+            <td><span class="sub">(optional)</span>tag indentation character(s) (default: two spaces ("  "))</td>
+          </tr>
+          <tr>
+            <td>root</td>
+            <td><span class="sub">(optional)</span>root element (default: ini)</td>
+          </tr>
+        </table>
+        <h4>Remarks</h4>
+        <p>Empty key nodes are automatically fused.</p>
+        <h4>Example</h4>
+        <pre class="code">ini_Load(phpconfig, ProgramFiles . "\PHP\php.ini")
+xmlsource := ini_ToXML(phpconfig)
+<em>; the following requires the xpath library:</em>
+xpath_load(xmldata, xmlsource)
+MsgBox, % xpath(xmldata, "/ini/PHP/*[3]")</pre>
+      </div>
+      <div class="method" id="ini_Save">
+        <h2>ini_Save</h2>
+        <p>Save the INI content to a file,  preserving the positions of previously existing sections and their keys.</p>
+        <h3 class="command">ini_Save(var, src)</h3>
+        <h4>Parameters</h4>
+        <table class="params">
+          <tr class="returns">
+            <td>
+              <em>Returns</em>
+            </td>
+            <td>The output source if src is not a file path,  otherwise a boolean indicating file write success or failure.</td>
+          </tr>
+          <tr>
+            <td>var</td>
+            <td>ini object</td>
+          </tr>
+          <tr>
+            <td>src</td>
+            <td><span class="sub">(optional)</span>path to a file or source as text</td>
+          </tr>
+        </table>
+      </div>
+      <div class="method" id="ini_Load">
+        <h2>ini_Load</h2>
+        <p>Load an INI file into memory so that it may be used with all the other functions in this library.</p>
+        <h3 class="command">ini_Load(var, file)</h3>
+        <h4>Parameters</h4>
+        <table class="params">
+          <tr class="returns">
+            <td>
+              <em>Returns</em>
+            </td>
+            <td>True if the file loaded successfully, false otherwise.</td>
+          </tr>
+          <tr>
+            <td>var</td>
+            <td>a reference to the loaded INI file as a variable (use for all other functions requiring this parameter)</td>
+          </tr>
+          <tr>
+            <td>file</td>
+            <td>path to a file or source as text</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div style="clear: both;"></div>
+    <div id="end">Version 1.08; Copyright © Titan - <a href="http://www.autohotkey.net/~Titan/zlib.txt">zlib License</a>
+    </div>
+  </body>
+</html>
