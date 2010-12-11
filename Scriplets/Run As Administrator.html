@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Run As Administrator</title>
+  <meta content="shajul" name="author">
+  <meta
+ content="To check if the user has Administrator rights and elevate it if needed by the script"
+ name="description">
+</head>
+<body>
+<span class="Apple-style-span"
+ style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+ class="Apple-style-span"
+ style="font-family: Verdana,Arial,Helvetica,sans-serif;"><span
+ class="postbody" style="font-size: 12px; line-height: 18px;">To check
+if the user has Administrator rights and elevate it if needed by the
+script, i stumbled upon the help doc, which states that</span>
+<table align="center" border="0" cellpadding="3" cellspacing="1"
+ width="90%">
+  <tbody>
+    <tr>
+      <td style="font-family: Verdana,Arial,Helvetica,sans-serif;"><span
+ class="genmed" style="font-size: 11px; color: rgb(0, 0, 0);"><b>Quote:</b></span></td>
+    </tr>
+    <tr>
+      <td class="quote"
+ style="border: 1px solid rgb(209, 215, 220); font-family: Verdana,Arial,Helvetica,sans-serif; font-size: 11px; color: rgb(68, 68, 68); line-height: 13px; background-color: rgb(250, 250, 250);">..this
+would need to be enhanced to work for compiled scripts and/or to pass
+parameters..</td>
+    </tr>
+  </tbody>
+</table>
+<span class="postbody" style="font-size: 12px; line-height: 18px;">on
+page<span class="Apple-converted-space">&nbsp;</span><a
+ href="http://www.autohotkey.com/docs/Variables.htm#BuiltIn"
+ target="_blank" class="postlink"
+ style="color: rgb(0, 102, 153); text-decoration: none;">http://www.autohotkey.com/docs/Variables.htm#BuiltIn</a>..<span
+ class="Apple-converted-space">&nbsp;</span><br>
+<br>
+The code given is..<span class="Apple-converted-space">&nbsp;</span><br>
+<br>
+</span>
+<table align="center" border="0" cellpadding="3" cellspacing="1"
+ width="90%">
+  <tbody>
+    <tr>
+      <td style="font-family: Verdana,Arial,Helvetica,sans-serif;"><span
+ class="genmed" style="font-size: 11px; color: rgb(0, 0, 0);"><b>Code:</b></span></td>
+    </tr>
+    <tr>
+      <td class="code"
+ style="border: 1px solid rgb(209, 215, 220); font-family: 'Andale Mono','Courier New',Courier,sans-serif; font-size: 12px; line-height: 14px; color: rgb(0, 0, 160); background-color: rgb(250, 250, 250);">
+      <div>if not A_IsAdmin<br>
+{<br>
+&nbsp; &nbsp;DllCall("shell32\ShellExecuteA", uint, 0, str, "RunAs",
+str, A_AhkPath<br>
+&nbsp; &nbsp; &nbsp; , str, """" . A_ScriptFullPath . """", str,
+A_WorkingDir, int, 1)<br>
+&nbsp; &nbsp;ExitApp<br>
+}</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<span class="postbody" style="font-size: 12px; line-height: 18px;"><br>
+<br>
+To run for any scripts, compiled or not, with params use this code
+instead..<span class="Apple-converted-space">&nbsp;</span><br>
+<br>
+</span>
+<table align="center" border="0" cellpadding="3" cellspacing="1"
+ width="90%">
+  <tbody>
+    <tr>
+      <td style="font-family: Verdana,Arial,Helvetica,sans-serif;"><span
+ class="genmed" style="font-size: 11px; color: rgb(0, 0, 0);"><b>Code (<a
+ href="javascript:;" onclick="javascript:expand(this);"
+ style="color: rgb(0, 102, 153);">Expand</a>):</b></span></td>
+    </tr>
+    <tr>
+      <td class="code"
+ style="border: 1px solid rgb(209, 215, 220); font-family: 'Andale Mono','Courier New',Courier,sans-serif; font-size: 12px; line-height: 14px; color: rgb(0, 0, 160); background-color: rgb(250, 250, 250);">
+      <div style="height: 234px;">Loop, %0%&nbsp;<span
+ class="Apple-converted-space">&nbsp;</span><span
+ style="color: rgb(0, 128, 0);">; For each parameter:</span><br>
+&nbsp; {<br>
+&nbsp; &nbsp; param := %A_Index%&nbsp;<span
+ class="Apple-converted-space">&nbsp;</span><span
+ style="color: rgb(0, 128, 0);">; Fetch the contents of the variable
+whose name is contained in A_Index.</span><br>
+&nbsp; &nbsp; params .= A_Space . param<br>
+&nbsp; }<br>
+ShellExecute := A_IsUnicode ?
+"shell32\ShellExecute":"shell32\ShellExecuteA"<br>
+&nbsp; &nbsp;<span class="Apple-converted-space">&nbsp;</span><br>
+if not A_IsAdmin<br>
+{<br>
+&nbsp; &nbsp; If A_IsCompiled<br>
+&nbsp; &nbsp; &nbsp; &nbsp;DllCall(ShellExecute, uint, 0, str, "RunAs",
+str, A_ScriptFullPath, str, params , str, A_WorkingDir, int, 1)<br>
+&nbsp; &nbsp; Else<br>
+&nbsp; &nbsp; &nbsp; &nbsp;DllCall(ShellExecute, uint, 0, str, "RunAs",
+str, A_AhkPath, str, """" . A_ScriptFullPath . """" . A_Space . params,
+str, A_WorkingDir, int, 1)<br>
+&nbsp; &nbsp; ExitApp<br>
+}</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<span class="postbody" style="font-size: 12px; line-height: 18px;"><br>
+<br>
+<span style="font-weight: bold;">Edit1:</span><span
+ class="Apple-converted-space">&nbsp;</span>Now it should work with
+both Basic AHK, Ansi and Unicode Autohotkey_L<span
+ class="Apple-converted-space">&nbsp;</span><br>
+<span style="font-weight: bold;">Edit2:</span><span
+ class="Apple-converted-space">&nbsp;</span>Shorter code, thanks
+Lexicos.<span class="Apple-converted-space">&nbsp;</span><br>
+</span></span></span>
+</body>
+</html>
