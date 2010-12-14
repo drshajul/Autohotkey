@@ -46,9 +46,16 @@ if InStr(FileExist(FilesToZip), "D")
 	FilesToZip .= SubStr(FilesToZip,0)="\" ? "*.*" : "\*.*"
 loop,%FilesToZip%,1
 {
+	zipped++
 	ToolTip Zipping %A_LoopFileName% ..
 	pzip.CopyHere( A_LoopFileLongPath, 4|16 )
-	sleep 400
+	Loop
+	{
+		done := pzip.items().count
+		if done = %zipped%
+			break
+	}
+	done := -1
 }
 ToolTip
 }
