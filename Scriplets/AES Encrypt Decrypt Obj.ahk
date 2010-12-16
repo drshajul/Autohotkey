@@ -1,9 +1,9 @@
-sFileOriginl	:= A_AHKPath
+sFileOriginl	:= A_ScriptFullPath
 sPassword	:= "AutoHotkey"
 
 SID := 256	; 128 for 128bit, 192 for 192bit AES
 sFileEncrypt := A_ScriptDir . "\encrypt" . SID . ".bin"
-sFileDecrypt := A_ScriptDir . "\decrypt" . SID . ".exe"
+sFileDecrypt := A_ScriptDir . "\decrypt" . SID . ".ahk"
 File_AES(sFileOriginl, sFileEncrypt, sPassword, SID, True)	; Encryption
 File_AES(sFileEncrypt, sFileDecrypt, sPassword, SID, False)	; Decryption
 
