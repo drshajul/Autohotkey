@@ -1,9 +1,9 @@
-sFileOriginl	:= A_AHKPath
+sFileOriginl	:= A_ScriptFullPath
 sPassword	:= "AutoHotkey"
 
 SID := 256	; 128 for 128bit, 192 for 192bit AES
 sFileEncrypt := A_ScriptDir . "\encrypt" . SID . ".bin"
-sFileDecrypt := A_ScriptDir . "\decrypt" . SID . ".exe"
+sFileDecrypt := A_ScriptDir . "\decrypt" . SID . ".ahk"
 File_AES(sFileOriginl, sFileEncrypt, sPassword, SID, True)	; Encryption
 File_AES(sFileEncrypt, sFileDecrypt, sPassword, SID, False)	; Decryption
 
@@ -15,13 +15,13 @@ File_AES(sFileFr, sFileTo, sPassword, SID = 256, bEncrypt = True)
 	nSize := hFileFr.Length
 	VarSetCapacity(sData, nSize + (bEncrypt ? 16 : 0))
 	hFileFr.Seek(0)
-	hFileFr.RawRead(&sData, nSize)
+	hFileFr.RawRead(sData, nSize)
 	hFileFr.Close()
 	hFileTo := FileOpen(sFileTo,"w")
 	if not hFileTo
 		Return	"File not created/opened!"
 	nSize := Crypt_AES(&sData, nSize, sPassword, SID, bEncrypt)
-	hFileTo.RawWrite(&sData, nSize)
+	hFileTo.RawWrite(sData, nSize)
 	hFileTo.Close()
 		Return	nSize
 }
@@ -32,7 +32,9 @@ Crypt_AES(pData, nSize, sPassword, SID = 256, bEncrypt = True)
 	CALG_SHA1 := 1 + CALG_MD5 := 0x8003
 	DllCall("advapi32\CryptAcquireContext", "UintP", hProv, "Uint", 0, "Uint", 0, "Uint", 24, "Uint", 0xF0000000)
 	DllCall("advapi32\CryptCreateHash", "Uint", hProv, "Uint", CALG_SHA1, "Uint", 0, "Uint", 0, "UintP", hHash)
-	DllCall("advapi32\CryptHashData", "Uint", hHash, "Uint", &sPassword, "Uint", (A_IsUnicode ? StrLen(sPassword)*2 : StrLen(sPassword)), "Uint", 0)
+	DllCall("advapi32\CryptHashData", "Uint", hHash
+	, "Uint", &sPassword
+	, "Uint", (A_IsUnicode ? StrLen(sPassword)*2 : StrLen(sPassword)), "Uint", 0)
 	DllCall("advapi32\CryptDeriveKey", "Uint", hProv, "Uint", CALG_AES_%SID%, "Uint", hHash, "Uint", SID<<16, "UintP", hKey)
 	DllCall("advapi32\CryptDestroyHash", "Uint", hHash)
 	If	bEncrypt
