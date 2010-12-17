@@ -14,6 +14,7 @@ File_AES(sFileFr, sFileTo, sPassword, SID = 256, bEncrypt = True)
 		Return	"File not found!"
 	nSize := hFileFr.Length
 	VarSetCapacity(sData, nSize + (bEncrypt ? 16 : 0))
+	hFileFr.Seek(0)
 	hFileFr.RawRead(&sData, nSize)
 	hFileFr.Close()
 	hFileTo := FileOpen(sFileTo,"w")
