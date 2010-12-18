@@ -9,7 +9,7 @@ File_AES(sFileEncrypt, sFileDecrypt, sPassword, SID, False)	; Decryption
 
 File_AES(sFileFr, sFileTo, sPassword, SID = 256, bEncrypt = True)
 {
-	hFileFr := FileOpen(sFileFr,"r")
+	hFileFr := FileOpen(sFileFr,"r -r")
 	if not hFileFr
 		Return	"File not found!"
 	nSize := hFileFr.Length
@@ -17,7 +17,7 @@ File_AES(sFileFr, sFileTo, sPassword, SID = 256, bEncrypt = True)
 	hFileFr.Seek(0)
 	hFileFr.RawRead(sData, nSize)
 	hFileFr.Close()
-	hFileTo := FileOpen(sFileTo,"w")
+	hFileTo := FileOpen(sFileTo,"w -r")
 	if not hFileTo
 		Return	"File not created/opened!"
 	nSize := Crypt_AES(&sData, nSize, sPassword, SID, bEncrypt)
