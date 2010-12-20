@@ -5,7 +5,7 @@ sFileEncrypt := A_ScriptDir . "\encrypt" . SID . ".bin"
 sFileDecrypt := A_ScriptDir . "\decrypt" . SID . ".ahk"
 
 if not A_IsUnicode
-	Ansi2Unicode(Password, sPassword)
+	StrPutVar(Password, sPassword, "UTF-8")
 
 
 File_AES(sFileOriginl, sFileEncrypt, sPassword, SID, True)	; Encryption
@@ -49,12 +49,8 @@ Crypt_AES(pData, nSize, sPassword, SID = 256, bEncrypt = True)
 	Return	nSize
 }
 
-
-Ansi2Unicode(ByRef sString, ByRef wString, nSize = "") ;adapted from COM standard library by Sean (http://www.autohotkey.com/forum/topic22923.html)
+StrPutVar(string, ByRef var, encoding)
 {
-	If (nSize = "")
-	    nSize:=DllCall("kernel32\MultiByteToWideChar", "Ptr", 0, "Ptr", 0, "Ptr", &sString, "Ptr", -1, "Ptr", 0, "Ptr", 0)
-	VarSetCapacity(wString, nSize * 2 + 1)
-	DllCall("kernel32\MultiByteToWideChar", "Ptr", 0, "Ptr", 0, "Ptr", &sString, "Ptr", -1, "Ptr", &wString, "Ptr", nSize + 1)
-	Return	&wString
+    VarSetCapacity( var, StrPut(string, encoding) * ((encoding="utf-16"||encoding="cp1200") ? 2 : 1) )
+    return StrPut(string, &var, encoding)
 }
