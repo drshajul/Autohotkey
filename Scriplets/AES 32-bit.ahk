@@ -1,4 +1,4 @@
-sFileOriginl	:= A_AhkPath
+sFileOriginl	:= A_ScriptFullPath
 sPassword	:= "AutoHotkey"
 
 SID := 256	; 128 for 128bit, 192 for 192bit AES
@@ -7,7 +7,7 @@ sFileDecrypt := A_ScriptDir . "\decrypt" . SID . ".ahk"
 
 StrPutVar(Password, sPassword, "UTF-8") ;Change encoding to be consistent in Ansi or Unicode builds
 
-;File_AES(sFileOriginl, sFileEncrypt, sPassword, SID, True)	; Encryption
+File_AES(sFileOriginl, sFileEncrypt, sPassword, SID, True)	; Encryption
 File_AES(sFileEncrypt, sFileDecrypt, sPassword, SID, False)	; Decryption
 
 File_AES(sFileFr, sFileTo, sPassword, SID = 256, bEncrypt = True)

@@ -4,8 +4,7 @@ SID := 256	; 128 for 128bit, 192 for 192bit AES
 sFileEncrypt := A_ScriptDir . "\encrypt" . SID . ".bin"
 sFileDecrypt := A_ScriptDir . "\decrypt" . SID . ".ahk"
 
-if not A_IsUnicode
-	StrPutVar(Password, sPassword, "UTF-8")
+StrPutVar(Password, sPassword, "UTF-8")
 
 
 File_AES(sFileOriginl, sFileEncrypt, sPassword, SID, True)	; Encryption
