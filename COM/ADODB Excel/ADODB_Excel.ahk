@@ -18,7 +18,7 @@ pFields := objRecordset.Fields
 Loop, % pFields.Count
     tNames .= pFields.Item(A_Index-1).Name . "|"
 Gui, Add, ListView, x2 y40 w480 h340 vMyLV, % SubStr(tNames,1,-1)
-GuiControl,,selMain,% "|" . SubStr(tNames,1,-1)
+GuiControl,,selMain,% "|" . SubStr(RegExReplace(tNames,"^.+?\|",""),1,-1) ;RegExReplace removes the first field, DATETIME not supported yet
 strObj := Object()
 Loop
 {
@@ -35,7 +35,7 @@ return
 
 UpdateGo:
 Gui,Submit,NoHide
-objRecordset := objConnection.Execute("Select " . selMain . " FROM [Sheet1$]")
+objRecordset := objConnection.Execute("Select ``" . selMain . "`` FROM [Sheet1$]")
 Loop
 {
     pFields := objRecordset.Fields
@@ -53,8 +53,12 @@ GuiControl,Choose,selItem,1
 Go:
 Gui,Submit,NoHide
 LV_Delete()
-selItem := """" . selItem . """"
-objRecordset := objConnection.Execute("Select * FROM [Sheet1$] Where " . selMain . "=" . selItem)
+if selItem is not number
+	selItem := "'" . selItem . "'"
+IfInString, selItem,/
+    StringReplace,selItem,selItem,/,//,All
+
+objRecordset := objConnection.Execute("Select * FROM [Sheet1$] Where ``" . selMain . "`` = " . selItem)
 Loop
 {
     pFields := objRecordset.Fields
