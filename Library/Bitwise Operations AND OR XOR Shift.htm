@@ -1,0 +1,460 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
+  <title>GameDev.net - Bitwise Operations in C</title>
+  <meta property="og:title" content="Bitwise Operations in C"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:url" content="http://www.gamedev.net/reference/articles/article1563.asp"/>
+    <meta property="og:image" content="http://images.gamedev.net/icons/gamedev_net.png"/>
+    <meta property="og:site_name" content="GameDev.net" />
+    <meta property="fb:app_id" content="103355463445" />
+    <meta property="og:description" content="Explains in detail what the various bitwise operations are, and shows examples of how they are used in game programming." />
+  <link rel=stylesheet href="/css/reference.css" type="text/css">
+  <link rel="icon" href="/pics/gdicon.png" type="image/png">
+  <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-279474-1']);
+      _gaq.push(['_trackPageview']);
+      (function () {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+</script>
+<script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js"></script> 
+<script type="text/javascript">
+    GS_googleAddAdSenseService("ca-pub-3167291168602081");
+    GS_googleEnableAllServices();
+</script> 
+<script type="text/javascript">
+GA_googleAddSlot("ca-pub-3167291168602081", "Leaderboard_Main");
+GA_googleAddSlot("ca-pub-3167291168602081", "Box_Main");
+</script>
+
+<script type="text/javascript">
+    GA_googleFetchAds();
+</script> 
+</head>
+<body>
+<div id="header"><a href="/">GameDev.net</a>Bitwise Operations in C</div>
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function () { FB.init({ appId: '103355463445', status: true, cookie: true, xfbml: true }); };
+    (function () {
+        var e = document.createElement('script'); e.async = true;
+        e.src = document.location.protocol +
+      '//connect.facebook.net/en_US/all.js';
+        document.getElementById('fb-root').appendChild(e);
+    } ());
+</script>
+<center><script type="text/javascript">
+GA_googleFillSlot("Leaderboard_Main");
+</script></center>
+<table cellpadding="5" cellspacing="0" border="0" width="100%"><tr><td>
+
+    <p align="center"><span class="title">Bitwise Operations in C</span>
+    
+          <br><span class="author">by Joseph Farrell</a></span>
+        </p>
+    <table align="right" border="0" cellpadding="5" cellspacing="0" width="310">
+    <tr>
+    <td align="center">
+    <fb:like href="http://www.gamedev.net/reference/articles/article1563.asp"></fb:like>
+    </td></tr>
+    <tr><td align="center"><br><span class="maintext-2">ADVERTISEMENT</span><script type="text/javascript">
+GA_googleFillSlot("Box_Main");
+</script></td></tr></table>
+  
+<H1>Introduction</H1>
+<P>After writing the <A HREF="/reference/programming/features/gpgenesis1/">Game Programming Genesis</A> series, I got a lot of E-mail from people asking me to clarify the bitwise operations I used in the sample programs. I use them all over the place in my code, enough that I don't really think about what I'm writing anymore, and so I neglected the fact that a lot of people don't see them used too often. This article is meant to be a complete introduction to bitwise manipulations using the C programming language. If you don't know C, no big deal. The ideas presented here are very general. The only things that will differ from one language to another are the characters used to represent the various operators.</P>
+<P>I will go over the combinational operators AND, OR, and XOR, and show you some of the things they are commonly used for. I will also go over bitwise shifts, and their applications. But before that, in case you're very new to this, I'm going to run through a discussion of how numbers are represented in binary form, and some basic terminology. If you've gone that far already, which many of you probably have, feel free to skip over this first part.</P>
+
+<H1>Number Representation</H1>
+<P>A number is a very abstract concept. Unlike physical objects, which are easily recognizable on sight, a number can be represented in an infinite number of ways. The representation we are used to is called <i>decimal</i>, or <i>base 10</i>. The first time is pretty familiar, but if you're reading this section, the second term may be new to you. To see why we use the term "base 10," let's take a look at an arbitrary number, say 5346. Read aloud, this is five thousand, three hundred, forty-six. We hear numbers like that so often that it's not immediately obvious, but this sounds a lot like a formula. Specifically:</P>
+<P><B>5346</B> = (<B>5</B> * 1000) + (<B>3</B> * 100) + (<B>4</B> * 10) + (<B>6</B> * 1)</P>
+<P>Or, if we write it another way, we see that a decimal number is actually the sum of its digits multiplied by successive powers of 10:</P>
+<P><B>5346</B> = (<B>5</B> * 10<SUP>3</SUP>) + (<B>3</B> * 10<SUP>2</SUP>) + (<B>4</B> * 10<SUP>1</SUP>) + (<B>6</B> * 10<SUP>0</SUP>)</P>
+<P>Do you see why the term "base 10" is used to describe the way we normally write numbers? Any integer can be written this way. Suppose we call the least significant digit (the digit in the ones place) "digit 0," and each successively higher digit is digit 1, digit 2, and so on. Then the full number is represented by digit 0 times 10<SUP>0</SUP>, plus digit 1 times 10<SUP>1</SUP>, and so on, up through digit n times 10<SUP>n</SUP>. The shorthand for the general case of an n-digit number is:</P>
+<P><B>d<suB>n</suB>d<suB>n-1</suB>...d<suB>1</suB>d<suB>0</suB></B> = <IMG SRC="/reference/programming/features/bitwise/bitwise-sigma.gif" width=22 height=45 alt="Sum, k=0 to n" align="middle"> <B>d<suB>k</suB></B> * 10<SUP>k</SUP></P>
+<P>This formula makes it clear why we call decimal representation "base 10" -- because 10 is the number used to weight the digits in order to give the number its value. Note also that there are 10 unique digits in the decimal number system. This is not coincidence. This is the way things must be to ensure that every integer has a representation, and that representation is unique. For example, consider if we had only the nine digits 0 through 8. There would be no way of representing the concept of ninety in the decimal system. The largest two-digit number would be 88, and the smallest three-digit number would be 100. Clearly this is not acceptable. Conversely, suppose we had eleven digits: 0 through 9, and A, where A has a value of 10. Then the number ten could be written as "10" or as "A." Since we want a <i>unique</i> representation for each number, this is not acceptable either.</P>
+<P>The obvious question to ask now is, "Why do we have to use 10 as the base?" Quite simply, we don't! Any positive integer greater than two can be used as the base. (Note that if we tried to use a "base 1" number system, the only thing we could write would be strings of zeroes.) A more interesting question is to ask why base 10 happens to be the number system in common use. That, I'm not sure of. But it wasn't always that way. The ancient Babylonians used to use a base 60 number system. Sound crazy? Well, some remnants of that system can still be seen today. Why do you think we divide an hour into sixty minutes, and a minute into sixty seconds? :)</P>
+<P>Anyway, if we take our last formula, and replace the 10 with a generic base B, then we have the representation for a number in any base. A base is also called a radix, by the way, so you'll know what I mean if I use that term. Now, we've already seen the decimal system. Let's take a look at some other important number systems.</P>
+
+<H2>Binary</H2>
+<P>The <i>binary</i>, or base 2, number system is the one that computers use to represent numbers in memory. Since we're dealing with base 2, there are only two digits available, namely 0 and 1. Each digit is multiplied by successive powers of two to obtain the number's overall value. For example, consider the binary number 100101. The value of this number is:</P>
+<P><B>100101</B> = (<B>1</B> * 2<SUP>5</SUP>) + (<B>0</B> * 2<SUP>4</SUP>) + (<B>0</B> * 2<SUP>3</SUP>) + (<B>1</B> * 2<SUP>2</SUP>) + (<B>0</B> * 2<SUP>1</SUP>) + (<B>1</B> * 2<SUP>0</SUP>) = 32 + 4 + 1 = <B>37</B></P>
+<P>So, why do computers use binary instead of just using decimal like we do? In computer hardware, a binary digit is represented by the presence of electric current. If the level of electricity is above a certain level, the digit is regarded as a 1. Otherwise, the digit is a 0. Obviously, building hardware that can differentiate between ten levels of current would be considerably more difficult and more expensive than this simple two-digit model. Hence, computers store everything in binary.</P>
+<P>A single binary digit is usually called a <i>bit</i>, and eight bits make a <i>byte</i>, which is the fundamental unit of storage in memory devices. Because a byte has eight bits, and each bit can take one of two values (0 or 1), the number of distinct values a byte can hold is 2<SUP>8</SUP> = 256. Two bytes together are called a <i>word</i>, which is a 16-bit value. A word can have 2<SUP>16</SUP> = 65,536 distinct values. Finally, two words together are called a <i>double word</i> or <i>dword</i>, which is a 32-bit value. Most processors in common use today are 32-bit, meaning they are built to normally operate on 32-bit numbers. This is why the int data type currently defaults to 32 bits in Win32 compilers, whereas an int is 16 bits in a realmode DOS compiler.</P>
+<P>Sometime in the not-too-distant future, we'll be writing 64-bit code instead, where the default size for an integer will be a <i>quad word</i> or <i>qword</i>. But for now, the dword is the standard. To see how a dword is broken up, take a look at the following diagram.</P>
+<P ALIGN="center"><IMG SRC="/reference/programming/features/bitwise/bitwise-dword.png" width=663 height=87 alt="dword"></P>
+<P>Bits are labeled 0 through 31, starting with the rightmost (least significant) bit. The least significant bit (often abbreviated LSB) is also called the low bit. The grouping of bits 0 through 7 is called the low byte, and bits 0 through 15 are called the low word. This terminology indicates that the bit, byte, or word in question is at the least significant end of the dword. Similarly, the most significant bit (MSB) is called the high bit, bits 24 to 31 are called the high byte, and bits 16 to 31 are called the high word. These terms are used often, so remember them!</P>
+<P>Now that you have an idea of what binary numbers are, let's take a look at one other system that's used often in computer programming, hexadecimal.</P>
+
+<H2>Hexadecimal</H2>
+<P>The <i>hexadecimal</i> number system uses base 16, which means that there are sixteen distinct digits. Obviously we're only used to having ten, 0 through 9. In hexadecimal, the character A has a value of 10, B has a value of 11, and so on through F, which has a value of 15. Let's see an example of determining the value of a hexadecimal number:</P>
+
+<P><B>3FC</B> = (<B>3</B> * 16<SUP>2</SUP>) + (<B>F</B> * 16<SUP>1</SUP>) + (<B>C</B> * 16<SUP>0</SUP>) = (<B>3</B> * 16<SUP>2</SUP>) + (<B>15</B> * 16<SUP>1</SUP>) + (<B>12</B> * 16<SUP>0</SUP>) = 768 + 240 + 12 = <B>1020</B></P>
+
+<P>The reason hexadecimal is so frequently used in programming is that it's very easy to translate between hexadecimal and binary, whereas converting from decimal to binary and back is kind of a pain. The reason it's so easy to convert between base 16 and base 2 is that 16 is a power of two. Specifically, 16 = 2<SUP>4</SUP>. Why is this significant? Well, a group of four binary digits can take exactly 2<SUP>4</SUP> values, which means that each hexadecimal digit corresponds to exactly four binary digits. Since ten is not a power of two, the conversion is not so easy in decimal. Thus, when programmers want to use a specific binary number, they write it in hexadecimal. In C, you can recognize a hexadecimal number because it is always prefixed by "0x." For example, this C statement assigns the value 1020 to a variable, by using its hexadecimal equivalent:</P>
+
+<PRE CLASS="code">
+nValue = 0x3FC;
+</PRE>
+
+<P>There is no such prefix that will allow you to write a binary number directly, which is why hexadecimal is used is used. The following table shows the binary equivalents for each of the sixteen hex digits. You should try to internalize this. At first you'll have to think about what you're doing as you convert binary to hex and back, but after awhile it will become second nature.</P>
+
+<P ALIGN="center"><TABLE border=1 cellpadding=3 cellspacing=0 align="center">
+<TR><TD><B>Decimal</B></TD>
+<TD>0</TD><TD>1</TD><TD>2</TD><TD>3</TD><TD>4</TD><TD>5</TD><TD>6</TD><TD>7</TD>
+<TD>8</TD><TD>9</TD><TD>10</TD><TD>11</TD><TD>12</TD><TD>13</TD><TD>14</TD><TD>15</TD></TR>
+<TR><TD><B>Hexadecimal</B></TD>
+<TD>0</TD><TD>1</TD><TD>2</TD><TD>3</TD><TD>4</TD><TD>5</TD><TD>6</TD><TD>7</TD>
+<TD>8</TD><TD>9</TD><TD>A</TD><TD>B</TD><TD>C</TD><TD>D</TD><TD>E</TD><TD>F</TD></TR>
+<TR><TD><B>Binary</B></TD>
+<TD>0000</TD><TD>0001</TD><TD>0010</TD><TD>0011</TD><TD>0100</TD><TD>0101</TD><TD>0110</TD><TD>0111</TD>
+<TD>1000</TD><TD>1001</TD><TD>1010</TD><TD>1011</TD><TD>1100</TD><TD>1101</TD><TD>1110</TD><TD>1111</TD></TR>
+</TABLE></P>
+
+<P>We can use this table to show a quick example, finding the binary equivalent of the hex number 3FC. Simply convert each hex digit to its binary equivalent, and you're all done:</P>
+<P><B>3FC</B> = 0011 1111 1100 = 1111111100</P>
+<P>Note that we can drop the leading zeroes, because they don't affect the value of the number, just as the decimal numbers 345 and 000345 are the same thing. All right, now you're all caught up on binary and hexadecimal, and you know why they're used. Let's get into the focus of this article, bitwise operations.</P>
+
+<H1>Bitwise Combinational Operators</H1>
+<P>There are three major bitwise operators that can be used to combine two numbers: AND, OR, and XOR. When I say that an operator is <i>bitwise</i>, it means that the operation is actually applied separately to each bit of the two values being combined. For example, if x = y AND z, that means that bit 0 of x is actually bit 0 of y ANDed with bit 0 of z. Make sense? Let's look at each operator in turn and see how they work. Once we've been through all of that, we'll be in a position to come up with some practical applications of each.</P>
+
+<H2>The AND Operator</H2>
+<P>There are two kinds of AND operators in the C language: the logical AND, and the bitwise AND. The former is represented by the && operator, and the latter uses the & operator. You've probably seen the first one numerous times, as it's often used in if statements. Here's an example of the logical AND in action:</P>
+
+<PRE CLASS="code">
+if ((x == 5) && (y == 7))
+    DoSomething();
+</PRE>
+
+<P>In this case, you would expect that the function will only be called if x is 5 and y is 7. The bitwise AND works very much the same way, except that it works with two bits instead of two expressions. The bitwise AND operation returns 1 if and only if <i>both</i> of its operands are equal to 1. In other words, we have the following truth table for the bitwise AND:</P>
+
+<P ALIGN="center"><TABLE cellpadding=2 cellspacing=1 border=0 align="center">
+<TR><TD>0 AND 0 = 0</TD><TD><IMG SRC="/reference/programming/features/bitwise/bitwise-spacer.gif" width=100 height=3></TD><TD>&nbsp;</TD></TR>
+<TR><TD>0 AND 1 = 0</TD><TD><IMG SRC="/reference/programming/features/bitwise/bitwise-spacer.gif" width=100 height=3></TD><TD>x AND 0 = 0</TD></TR>
+<TR><TD>1 AND 0 = 0</TD><TD><IMG SRC="/reference/programming/features/bitwise/bitwise-spacer.gif" width=100 height=3></TD><TD>x AND 1 = x</TD></TR>
+<TR><TD>1 AND 1 = 1</TD><TD><IMG SRC="/reference/programming/features/bitwise/bitwise-spacer.gif" width=100 height=3></TD><TD>&nbsp;</TD></TR>
+</TABLE></P>
+
+<P>The first column shows the result of a bitwise AND when combining explicitly defined bits. But it's the second column that's interesting. It says that if you AND any bit with 0, the result is 0; and if you AND any bit with 1, the result is the original bit. This little piece of information will be the key to making the bitwise AND work for us later, so keep it in mind. To finish up, let's see an example of combining two words using the bitwise AND operator:</P>
+
+<PRE CLASS="code">
+  0110 1011 1000 0101
+& 0001 1111 1011 1001
+---------------------
+  0000 1011 1000 0001
+</PRE>
+
+<P>Do you see why we get the result we do? There is a 1 in the result only in the positions where the corresponding bits in both operands are also equal to 1. That's all there is to the bitwise AND operation. Let's move on.</P>
+
+<H2>The OR Operator</H2>
+<P>Just as with the AND operation, there are two different types of OR in the C language. The logical OR uses the || operator, and the bitwise OR uses the | operator. A use of the logical OR might look something like this:</P>
+
+<PRE CLASS="code">
+if ((x == 5) || (y == 7))
+    DoSomething();
+</PRE>
+
+<P>In this example, the function will be called if x is 5, if y is 7, or both. The only way the function is not called is if both of the conditions are false. The bitwise OR is very similar, in that it returns 0 if and only if <i>both</i> of its operands are 0. To illustrate this, we have the following truth table:</P>
+
+<P ALIGN="center"><TABLE cellpadding=0 cellspacing=1 border=0 align="center">
+<TR><TD>0 OR 0 = 0</TD><TD><IMG SRC="/reference/programming/features/bitwise/bitwise-spacer.gif" width=100 height=3></TD><TD>&nbsp;</TD></TR>
+<TR><TD>0 OR 1 = 1</TD><TD><IMG SRC="/reference/programming/features/bitwise/bitwise-spacer.gif" width=100 height=3></TD><TD>x OR 0 = x</TD></TR>
+<TR><TD>1 OR 0 = 1</TD><TD><IMG SRC="/reference/programming/features/bitwise/bitwise-spacer.gif" width=100 height=3></TD><TD>x OR 1 = 1</TD></TR>
+<TR><TD>1 OR 1 = 1</TD><TD><IMG SRC="/reference/programming/features/bitwise/bitwise-spacer.gif" width=100 height=3></TD><TD>&nbsp;</TD></TR>
+</TABLE></P>
+
+<P>Once again, the second column is the interesting one. Note that whenever you OR a bit with 0, the result is the original bit, and whenever you OR a bit with 1, the result will always be 1. This will be the key to using OR effectively a little later on. For now, let's just look at an example of using the bitwise OR operation on two words:</P>
+
+<PRE CLASS="code">
+  0110 1011 1000 0101
+| 0001 1111 1011 1001
+---------------------
+  0111 1111 1011 1101
+</PRE>
+
+<P>Here you can see that the result contains a 0 only when the corresponding bits in both of the operands are also 0. Now we've got just one more combinational operator to look at, and that's XOR.</P>
+
+<H2>The XOR Operator</H2>
+<P>The XOR is a little strange because there is no logical equivalent for it in C, even though many languages include one. The XOR operation is symbolized by the ^ character in C. The term XOR stands for "exclusive OR," and means "one or the other, but not both." In other words, XOR returns 1 if and only if <i>exactly one</i> of its operands is 1. If both operands are 0, or both are 1, then XOR returns 0. To see this, take a look at the truth table for XOR:</P>
+
+<P ALIGN="center"><TABLE cellpadding=0 cellspacing=1 border=0 align="center">
+<TR><TD>0 XOR 0 = 0</TD><TD><IMG SRC="/reference/programming/features/bitwise/bitwise-spacer.gif" width=100 height=3></TD><TD>&nbsp;</TD></TR>
+<TR><TD>0 XOR 1 = 1</TD><TD><IMG SRC="/reference/programming/features/bitwise/bitwise-spacer.gif" width=100 height=3></TD><TD>x XOR 0 = x</TD></TR>
+<TR><TD>1 XOR 0 = 1</TD><TD><IMG SRC="/reference/programming/features/bitwise/bitwise-spacer.gif" width=100 height=3></TD><TD>x XOR 1 = ~x</TD></TR>
+<TR><TD>1 XOR 1 = 0</TD><TD><IMG SRC="/reference/programming/features/bitwise/bitwise-spacer.gif" width=100 height=3></TD><TD>&nbsp;</TD></TR>
+</TABLE></P>
+
+<P>The truth table here is interesting. Note from the first column that anything XORed with itself returns 0. This fact will lead to an interesting application of XOR later on. In the second column, we see that any bit XORed with 0 yields the original bit, and any bit XORed with 1 yields the complement of the original bit. This is something you may not have seen before: the bitwise NOT. It is a unary operator, meaning that it only takes one operand, like a negative sign. A bitwise NOT simply inverts all the bits in its operand, meaning that all 0s are changed to 1s, and vice versa. Now, let's take a look at an example of using XOR on two words:</P>
+
+<PRE CLASS="code">
+  0110 1011 1000 0101
+^ 0001 1111 1011 1001
+---------------------
+  0111 0100 0011 1100
+</PRE>
+
+<P>So there you have it, the last of the combinational operators, plus the only unary bitwise operator, the NOT. Before we can look at any applications of these, there is one other class of bitwise operator I need to show you, called shifts. Don't worry, this will go pretty quickly, and then we can get on to the interesting stuff.</P>
+
+<H1>Bitwise Shifts</H1>
+<P>There are two bitwise shift operators, namely shift left and shift right. In C, they are represented by the &lt;&lt; and &gt;&gt; operators, respectively. These operations are very simple, and do exactly what they say: shift bits to the left or to the right. The syntax for a shift operation is as follows:</P>
+
+<PRE CLASS="code">
+[integer] [operator] [number of places];
+</PRE>
+
+<P>A statement of this form shifts the bits in [integer] by the number of places indicated, in the direction specified by the operator. Probably the best way to visualize this is with an example. Take a look at the following code, which demonstrates a shift left.</P>
+
+<PRE CLASS="code">
+// Precondition:  x == 0000 0110 1001 0011
+// Postcondition: y == 0000 1101 0010 0110
+x = x &lt;&lt; 1;
+</PRE>
+
+<P>From this example, you should be able to see what's going on. Every bit in x is shifted to the left by one place. When you do this, the MSB (most significant bit, remember?) of x is lost, because there isn't another place to shift it to. Similarly, after a shift left, the LSB of x will always be 0. There is no position to the right of the LSB, and so there's nothing to shift into the LSB, so it's assigned a value of 0. Just to make sure you've got the idea of this, let's take a look at a shift right:</P>
+
+<PRE CLASS="code">
+// Precondition:  x == 0110 1111 1001 0001
+// Postcondition: y == 0000 0110 1111 1001
+x = x &gt;&gt; 4;
+</PRE>
+
+<P>Here, the bits are being shifted right by four places. Got it? Good. That finishes out the set of bitwise operators, so now we can finally get around to seeing what they're good for.</P>
+
+<H1>Uses For Bitwise Operators</H1>
+<P>Bitwise operators have two main applications. The first is using them to combine several values into a single variable. Suppose you have a series of flag variables which will always have only one of two values: 0 or 1 (this could also be true or false). The smallest unit of memory you can allocate to a variable is a byte, which is eight bits. But why assign each of your flags eight bits, when each one only needs one bit? Using bitwise operators allows you to combine data in this way. The Win32 and DirectX both make liberal use of this. The second application for bitwise operators is that you can use them to accomplish certain arithmetic operations. We'll take a look at both.</P>
+
+<H2>Extracting and Clearing Values</H2>
+<P>A perfect example for when you'd want to combine multiple values into a single variable is if you're doing graphics work with 32-bit color. In a 32-bit color dword, there are four distinct values. The low byte (bits 0 through 7) is the value for blue. The next most significant byte is a value for green, then a byte for blue, and finally, the high byte is an alpha (transparency) value. So the color dword looks like this in memory:</P>
+
+<PRE CLASS="code"><B><font color="#888888">AAAA AAAA</font> <font color="#ff0000">RRRR RRRR</font> <font color="#00dd00">GGGG GGGG</font> <font color="#0000ff">BBBB BBBB</font></B></PRE>
+
+<P>Now, suppose you have a 32-bit integer called dwColor, and you want to extract the value for green. How would you do it? What you need is a way to eliminate the other three bytes, and leave the red byte untouched. Recall the truth table for the bitwise AND. If you remember, ANDing any bit with 0 yields 0, and ANDing any bit with 1 yields the original bit. So what you do here is define a value called a <i>mask</i>, which has 0s where you want to erase information, and 1s where you want to save information. Since you want to extract the red byte, your mask would look like this:</P>
+
+<PRE CLASS="code">0000 0000 1111 1111 0000 0000 0000 0000</PRE>
+
+<P>Of course, you can't write binary numbers directly into C code, so you have to convert it into hexadecimal. But that's easy, remember? In this case, the hex equivalent is 0x00FF0000. If we use the bitwise AND on dwColor and our mask, we get the following result:
+
+<PRE CLASS="code">
+dwColor:   <B><font color="#888888">AAAA AAAA</font> <font color="#ff0000">RRRR RRRR</font> <font color="#00dd00">GGGG GGGG</font> <font color="#0000ff">BBBB BBBB</font></B>
+mask:    & 0000 0000 1111 1111 0000 0000 0000 0000
+         -----------------------------------------
+result:    0000 0000 <B><font color="#ff0000">RRRR RRRR</font></B> 0000 0000 0000 0000
+</PRE>
+
+<P>That's great, but there's just one problem. To use the red byte by itself like we want, it would have to be the low byte. But it's not -- it's 16 bits up in the dword. So, what do you think we learned those shift operators for? :) All we need now is a shift right by 16 places, and we're all set:</P>
+
+<PRE CLASS="code">
+Previous:  0000 0000 <B><font color="#ff0000">RRRR RRRR</font></B> 0000 0000 0000 0000 
+Shift:                                       &gt;&gt; 16
+           ---------------------------------------
+Result:    0000 0000 0000 0000 0000 0000 <B><font color="#ff0000">RRRR RRRR</font></B>  ==  <B><font color="#ff0000">RRRR RRRR</font></B>
+</PRE>
+
+<P>We've done exactly what we wanted to do: we extracted the red byte from the full color dword. This example can be applied to virtually anything that uses <i>bit fields</i> to store a number of values in a single variable. All you have to do is make sure your masks are set correctly, and you shift by the correct number of places. The mask should contain a 1 wherever you want to keep information, and a 0 wherever you want to clear it. As one more example, I'll show you how you would come up with the masks for a 16-bit color word.</P>
+
+<PRE CLASS="code">
+Color word:  <B><font color="#ff0000">RRRR R</font><font color="#00dd00">GGG GGG</font><font color="#0000ff">B BBBB</font></B>
+Red mask:    1111 1000 0000 0000  ==  0xF800
+Green mask:  0000 0111 1110 0000  ==  0x07E0
+Blue mask:   0000 0000 0001 1111  ==  0x001F
+</PRE>
+
+<P>Note that instead of clearing all the fields but one so you can use that by itself, you can also use AND to leave all the fields except one as they are, clearing only that one. For example, you could alter a 32-bit color dword by clearing its green byte. But, then what happens if you want to set that value to something else without altering the rest of the color word? You could accomplish that with the bitwise AND operator and a number of shifts, but it wouldn't be the most efficient way. To easily splice new values into a larger variable, we need to employ the bitwise OR.</P>
+
+<H2>Inserting and Combining Values</H2>
+<P>Now our situation is the reverse to what we were just doing. Instead of extracting a byte from a color dword, suppose we want to reset one. Maybe we have a color dword that represents the color (214, 53, 240), and we want to change it to (214, 166, 240). The first step is to clear the green byte to 0, which we learned how to do in the last section. To see how to rewrite that byte, consider the truth table for the bitwise OR. Remember that any value ORed with 0 is that value. So we must create a new mask to use. It will have zeroes wherever the color dword is already defined, and it will have an actual color value wherever the color dword has a 0. If you didn't follow that, this should clear it up:</P>
+
+<PRE CLASS="code">
+dwColor:   <B><font color="#888888">AAAA AAAA</font> <font color="#ff0000">RRRR RRRR</font></B> 0000 0000 <B><font color="#0000ff">BBBB BBBB</font></B>
+mask:    | 0000 0000 0000 0000 <B><font color="#00dd00">GGGG GGGG</font></B> 0000 0000
+         -----------------------------------------
+result:    <B><font color="#888888">AAAA AAAA</font> <font color="#ff0000">RRRR RRRR</font> <font color="#00dd00">GGGG GGGG</font> <font color="#0000ff">BBBB BBBB</font></B>
+</PRE>
+
+<P>So in this case, the mask is the green byte, located at the appropriate position so that it merges correctly with the color dword. As before, we can use a bitwise shift to shift the green byte into the position we want it in. In the example above, the green byte is located eight bits above the low byte, so the shift operation you'd use would look like this:</P>
+
+<PRE CLASS="code">
+Previous:  0000 0000 0000 0000 0000 0000 <B><font color="#00dd00">GGGG GGGG</font></B>  ==  <B><font color="#00dd00">GGGG GGGG</font></B>
+Shift:                                        &lt;&lt; 8
+           ---------------------------------------
+Result:    0000 0000 0000 0000 <B><font color="#00dd00">GGGG GGGG</font></B> 0000 0000
+</PRE>
+
+<P>And that's it! What we've done so far with the bitwise AND and OR operations is enough for you to fully manipulate any values divided into bit fields, such as color words. The other place this comes in handy is when you're designing a function that can take a number of flags as arguments, and you want to combine all of those flags into a single parameter to the function. The only thing you need to do is make sure you define the various flags so that their binary values don't have any 1s in common. Then you can OR them together to create a unique combination of flags. For example, take a look at the following function call:</P>
+
+<PRE CLASS="code">Animate(lpdds, 8, ANIM_LOOP | ANIM_MAXSPEED | ANIM_LINK);</PRE>
+
+<P>This is an example of a function call you might use to start an animation in a game engine. Note that the last parameter to the function has three constants combined using the bitwise OR operator. The definition of those constants might look like this:</P>
+
+<PRE CLASS="code">
+#define ANIM_LOOP        1    // (0000 0001)
+#define ANIM_ONCE        2    // (0000 0010)
+#define ANIM_MAXSPEED    4    // (0000 0100)
+#define ANIM_MINSPEED    8    // (0000 1000)
+#define ANIM_CUSTSPEED  16    // (0001 0000)
+#define ANIM_LINK       32    // (0010 0000)
+#define ANIM_LINKALL    64    // (0100 0000)
+</PRE>
+
+<P>Note that the constants are defined as successive powers of 2, so that each has only one bit set to 1. This is so any combination of these values will yield a unique result. If you defined them as consecutive integers, you would get repeated values. For example, 1 OR 2 is 3, but 1 OR 3, 2 OR 3, and just 3 by itself all come out to 3 as well. So the function receives a value of 3, it won't know what combination you mean. To test to see if one of the flags is present, you just try to extract it with an AND. If the result is nonzero, the flag is set. So the body of the function might look like this:</P>
+
+<PRE CLASS="code">
+int Animate(LPDIRECTDRAWSURFACE lpdds, int nFrames, DWORD dwFlags)
+{
+    // test for looping
+    if ((dwFlags & ANIM_LOOP) > 0)
+        anim.bLoop = TRUE;
+
+    // test for maximum speed
+    if ((dwFlags & ANIM_MAXSPEED) > 0)
+        anim.nSpeed = MAX_SPEED;
+
+    // ...and so on
+}
+</PRE>
+
+<P>As I mentioned before, the Win32 API and DirectX both have a great number of functions that let you combine flags in this way, and this is how they accomplish it. If you look through your Windows headers, you'll find those flags defined as powers of 2 for that very reason. Very useful stuff.</P>
+
+<H2>Swapping Variables</H2>
+<P>If you're ever writing some code that needs to fit in a very tight amount of memory (such as a piece of assembly language), you might come across a situation where you want to swap two variables without having to use a third. The XOR operator provides a very cool way to do this. This works based on two facts. First, the XOR operation is commutative. That is, X ^ Y is the same thing as Y ^ X. Second, as we saw earlier, anything XORed with itself yields 0. With that in mind, suppose we have two constants, called CONST_A and CONST B. Take a look at the following code fragment:</P>
+
+<PRE CLASS="code">
+                    //  Value of x                         Value of y
+                    // -----------------------------------------------
+int x, y;           //  0                                  0
+x = CONST_A;        //  CONST_A                            0
+y = CONST_B;        //  CONST_A                            CONST_B
+x = x ^ y;          //  CONST_A ^ CONST_B                  CONST_B
+y = x ^ y;          //  CONST_A ^ CONST_B                  CONST_A ^ CONST_B ^ CONST_B == CONST_A ^ 0 == CONST_A
+x = x ^ y;          //  CONST_A ^ CONST_A ^ CONST_B        CONST_A
+                    //  == 0 ^ CONST_B == CONST_B          CONST_A
+                    //  CONST_B                            CONST_A
+</PRE>
+
+<P>Look this over for a minute so you can see exactly what's going on. The two variables begin as CONST_A and CONST_B, respectively. With two XOR operations, y becomes CONST_A ^ CONST_B ^ CONST_B, but CONST_B ^ CONST_B is of course 0, and CONST_A ^ 0 is simply CONST_A. Another XOR operation does the reverse to x, and in three quick statements, you have swapped the values of two variables, without using a third. Is that cool or what? :) Also, note that there is a ^= operator similar to the += and -= operators in C, so the code for swapping x and y comes down to this:</P>
+
+<PRE CLASS="code">
+x ^= y;
+y ^= x;
+x ^= y;
+</PRE>
+
+<P>Bitwise operations are extremely fast for the processor to handle, so this is nice and quick, as well as a way to rid yourself of a temporary variable, which can be very nice. All right, we're almost done. The last thing we can do is replace a few arithmetic operations with bitwise ones.</P>
+
+<H2>Replacing Arithmetic Operations</H2>
+<P>What happens when you take a binary number and multiply it by two? Let's write it out the long way to see exactly what goes on. First, choose a random binary number, say 0010 1101. Then write it as a sum of powers of two, like we saw at the beginning of this article:</P>
+<P><B>0010 1101</B> = (<B>1</B> * 2<SUP>5</SUP>) + (<B>1</B> * 2<SUP>3</SUP>) + (<B>1</B> * 2<SUP>2</SUP>) + (<B>1</B> * 2<SUP>0</SUP>)</B>
+<P>I have eliminated the cases where the bit is 0, because they just multiply out to 0 anyway so they don't affect the sum. Now, suppose we take this sum of products and multiply it by two. Here's what we get, again in the expanded notation:</P>
+
+<P><B>0010 1101</B> * 2 = 2(<B>1</B> * 2<SUP>5</SUP>) + 2(<B>1</B> * 2<SUP>3</SUP>) + 2(<B>1</B> * 2<SUP>2</SUP>) + 2(<B>1</B> * 2<SUP>0</SUP>)<BR>
+<B>0010 1101</B> * 2 = (<B>1</B> * 2<SUP>6</SUP>) + (<B>1</B> * 2<SUP>4</SUP>) + (<B>1</B> * 2<SUP>3</SUP>) + (<B>1</B> * 2<SUP>1</SUP>)</P>
+
+<P>Notice what our result is -- since the original number was written as a sum of powers of two times the bits of the number, all that happens when we multiply the whole sum by two is that the exponents on the 2s increase by one each. See what I'm getting at? The result of the multiplication is <i>still</i> a sum of powers of two, and as such, it can be directly reduced to a binary number. Let's see what it is.</P>
+<P><B>0010 1101</B> * 2 = (<B>1</B> * 2<SUP>6</SUP>) + (<B>1</B> * 2<SUP>4</SUP>) + (<B>1</B> * 2<SUP>3</SUP>) + (<B>1</B> * 2<SUP>1</SUP>) = <B>0101 1010</B></P>
+<P>Notice anything odd about the result? That's right -- it's the original number, shifted left by one position. This is because a shift left increases the weight on each bit by one place, which is the same as increasing the exponents on the 2s in expanded form, which is the same as multiplying by two. Thus, you can multiply by <i>any</i> power of two by shifting left the same number of places. For example, if you wanted to multiply a number by 16, which is 2<SUP>4</SUP>, you could simply shift it left four places. The following pairs of statements are all equivalent to one another:</P>
+
+<PRE CLASS="code">
+x = y * 8;
+x = y &lt;&lt; 3;
+
+x = y * 64;
+x = y &lt;&lt; 6;
+
+x = y * 32768;
+x = y &lt;&lt; 15;
+</PRE>
+
+<P>Pretty neat, isn't it? This is a fast way to accomplish multiplication by powers of two, using only a bitwise shift. If you've ever done any circuit design, you know that a bitwise shift is extremely fast, and so this can help you out. Newer processors' multiplication speeds are getting faster and faster, so this is less of a help than it used to be, but it's still an interesting thing to know.</P>
+<P>Now, you might be asking, if shift left is equivalent to multiplication by two, is shift right equivalent to division by 2? The answer is yes! Shifting right simply drops the weight on each bit, meaning that the exponents on the 2s all decrease by one. Note that this is integer division only; you can't get a fractional value or a remainder out of this. Division in hardware is not the fastest thing in the world, though it is getting better, so this is again a good trick to know. These pairs of statements are equivalent to one another:</P>
+
+<PRE CLASS="code">
+x = y / 4;
+x = y &gt;&gt; 2;
+
+x = y / 32;
+x = y &gt;&gt; 5;
+</PRE>
+
+<P>Finally, there is one more arithmetic operation that we can replace. Let's take our last example number, 0010 1101, and suppose we extract the last three bits, so the number is in two parts:</P>
+
+<PRE CLASS="code">
+Part 1:    0010 1000
+Part 2:  | 0000 0101
+         -----------
+Sum:       0010 1101
+</PRE>
+
+<P>Part 1 of this number has had its lower three bits extracted, which means they are all 0s. So the smallest power of two in the longhand form of Part 1 is 8 = 2<SUP>3</SUP>, because bit 3 is the lowest bit set to 1. That means that Part 1 is evenly divisible by 8. Part 2 is of course less than eight, because only the three lowest bits have been extracted into it, so it can have a maximum value of 2<SUP>3</SUP> - 1 = 7. Thus if you add Parts 1 and 2 together, to get our original number, and divide that number by eight, the result would be the same as if you were to simply divide Part 1 by eight. Have you figured out what Part 2 is yet? It's the remainder when you divide the sum by eight. That means that you can use an AND to replace a modulus operation if you're using a power of two.</P>
+<P>You might want to re-read that to let it sink in a bit, because this one isn't quite as obvious as the last two. Consider this. You have a number you want to divide by 32. If you were to shift the number right by five places, this accomplishes the division, and the five least significant bits are thrown away. That means that those five bits (which we'll call x) had no effect whatsoever on the result of the division. All they represented was how close that original number was to reaching the next multiple of 32.</P>
+<P>In summary, to accomplish a modulus operation on a number of the form 2<SUP>n</SUP>, simply mask off the lowest n bits using a bitwise AND. To do this, you use 1s for all n of those bits. But notice that we have the following identity:</P>
+<P>2<SUP>n+1</SUP> - 1 = <IMG SRC="/reference/programming/features/bitwise/bitwise-sigma.gif" width=22 height=45 alt="Sum, k=0 to n" align="middle"> 2<SUP>k</SUP></P>
+<P>In other words, the number we need to use as our mask in order to perform a modulus operation on 2<SUP>n</SUP> is simply 2<SUP>n</SUP> - 1. To illustrate this, the following pairs of statements are all equivalent to one another:</P>
+
+<PRE CLASS="code">
+x = y % 8;
+x = y & 7;
+
+x = y % 32;
+x = y & 31;
+
+x = y % 256;
+x = y & 255;
+</PRE>
+
+<H1>Conclusion</H1>
+<P>All right, we're all finished. We've accomplished quite a bit with this article. You've now been through a brief introduction to the various number systems and how they are used. You've also seen a number of useful applications of this knowledge, such as inserting and extracting values within a larger variable, performing fast arithmetic operations, and a neat trick to swap two variables quickly. If you have any comments on this article, or questions about anything in it, feel free to send me an E-mail at <A HREF="mailto:ironblayde@aeon-software.com">ironblayde@aeon-software.com</A>. Happy coding!</P>
+
+<P ALIGN="center" CLASS="maintext-2"><B>Copyright &copy; 2001 by Joseph "Ironblayde" Farrell</B></P>
+
+<p align="center"><b><a href="/community/forums/topic.asp?key=featart&uid=1563&forum_id=35&Topic_Title=Bitwise+Operations+in+C">Discuss this article in the forums</a></b></p>
+<p>
+<br><span class="maintext-2">Date this article was posted to GameDev.net: <b>10/30/2001</b>
+<br>(Note that this date does not necessarily correspond to the date the article was written)</span>
+<p><b>See Also:</b><br>
+
+<a href="/reference/list.asp?categoryid=78">Featured Articles  </a><br>
+
+<a href="/reference/list.asp?categoryid=126">General  </a><br>
+
+<p align="center">&copy; 1999-2010 Gamedev.net. All rights reserved. <a href="/info/legal.htm#copyright"><u>Terms of Use</u></a> <a href="/info/legal.htm#privacy"><u>Privacy Policy</u></a>
+<br><span class="maintext-1">Comments? Questions? Feedback? <a href="/info/faq.asp">Click here!</a></span></p>
+
+</td></tr></table>
+
+
+<!-- start Vibrant Media IntelliTXT Tooltip style sheet -->
+<style type="text/css">
+.iTt{
+    FONT-FAMILY:       Verdana, Arial, Helvetica;
+    FONT-SIZE:         11px;
+    FONT-STYLE:        normal;
+    FONT-WEIGHT:       normal;
+    COLOR:             black;
+    BACKGROUND-COLOR:  lightyellow;
+    BORDER:            black 1px solid;
+    PADDING:           2px;
+}
+.iTt a {
+    COLOR:             0000CC;
+}
+.iTt a:visited {
+    COLOR:             0000CC;
+}
+.iTt a:hover {
+    COLOR:             6666CC;
+}
+.iTt TD {
+   COLOR:              999999;
+}
+</style>
+<!-- end Vibrant Media IntelliTXT style sheet -->
+<!-- start Vibrant Media IntelliTXT script section -->
+<script type="text/javascript" src="http://gamedev.us.intellitxt.com/intellitxt/front.asp?ipid=1966"></script>
+<!-- end Vibrant Media IntelliTXT script section -->
+
+</body>
+</html>
