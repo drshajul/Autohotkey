@@ -13,38 +13,15 @@
                       `--`---'     \   \  /                         
                                     `--`-'  
 ------------------------------------------------------------------
-Function:
-Requires: 
-URL: 
+Function: Find Exif Info of image
+Requires: SImageUtil Component -> http://www.reneris.com/tools/default.asp
+          Autohotkey_L
+URL: http://www.autohotkey.com/forum/viewtopic.php?t=66634
 ------------------------------------------------------------------
 */
 
-#NoEnv
-SetWorkingDir %A_ScriptDir%
 Image := ComObjCreate("SImageUtil.Image")
 Image.OpenImageFile(A_ScriptDir . "\test.jpg")
-
-exif := Object() ;Object to store description of short code
-exif.Make	 := "Make"
-exif.Model := "Model"
-exif.Software := "Software"
-exif.Focal := "Focal Length"
-exif.ExpProg := "Program"
-exif.ISO := "ISO"
-exif.Flash := "Flash"
-exif.WhiteBal := "White Balance"
-exif.s := "Shutter"
-exif.f := "Aperture"
-exif.ExpBias := "Exposure Bias"
-exif.Focus := "Focus"
-exif.Lens := "Lens"
-exif.Meter := "Meter"
-exif.Sharpness := "Sharpness"
-exif.ImageAdj := "Image Adjust"
-exif.Res := "Resolution"
-exif.Qual := "Compression"
-exif.Date := "Date"
-exif.Ori := "Orientation"
 
 Main := Object()
 Main.Desc := "Image Description"
@@ -114,15 +91,14 @@ Sub.CFAPat := "CFA Pattern"
 Gui, Add, ListView, x0 y0 r45 w400 h500 vMyLV, Attribute|Value
 GuiControl, -Redraw, MyLV
 
-For k,v in exif
- LV_Add("",v,Image.GetExif(k))
-
 For k,v in Main
- LV_Add("",v,Image.GetExif("Main." . k))
+ if (value := Image.GetExif("Main." . k))
+  LV_Add("",v,value)
 
 For k,v in Sub
- LV_Add("",v,Image.GetExif("Sub." . k))
-
+ if (value := Image.GetExif("Sub." . k))
+  LV_Add("",v,value)
+ 
 GuiControl, +Redraw, MyLV 
 LV_ModifyCol()
 Gui, Show, w400 h500, Exif Details
@@ -130,3 +106,32 @@ Return
 
 GuiClose:
 ExitApp
+
+
+
+/*
+exif := Object() ;Object to store description of short code
+exif.Make	 := "Make"
+exif.Model := "Model"
+exif.Software := "Software"
+exif.Focal := "Focal Length"
+exif.ExpProg := "Program"
+exif.ISO := "ISO"
+exif.Flash := "Flash"
+exif.WhiteBal := "White Balance"
+exif.s := "Shutter"
+exif.f := "Aperture"
+exif.ExpBias := "Exposure Bias"
+exif.Focus := "Focus"
+exif.Lens := "Lens"
+exif.Meter := "Meter"
+exif.Sharpness := "Sharpness"
+exif.ImageAdj := "Image Adjust"
+exif.Res := "Resolution"
+exif.Qual := "Compression"
+exif.Date := "Date"
+exif.Ori := "Orientation"
+
+For k,v in exif
+ LV_Add("",v,Image.GetExif(k))
+*/
