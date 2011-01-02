@@ -18,6 +18,7 @@ pwb.document.all.password.value := "one4all"
 pwb.document.all.button.click()  ;click login
 While, pwb.Busy
    Continue
+Sleep 100
 sLocation := pwb.LocationURL
 RegExMatch(sLocation,"BV_SessionID.+$",sID)
 qlocation := "https://www.irctc.co.in/cgi-bin/bv60.dll/irctc/booking/quickBook.do?LinkValue=1&amp;QuickNav=true&amp;submitClicks=1&amp;voucher=43&amp;" . sID
@@ -26,6 +27,7 @@ StringReplace,qlocation,qlocation,&amp`;,&,All
 pwb.Navigate(qlocation)
 While, pwb.Busy
    Continue
+Sleep 200
 pwb.document.all.stationFrom.value := "ktym"   
 pwb.document.all.stationTo.value := "sbc"   
 pwb.document.all.classCode.selectedIndex := 4   
@@ -39,10 +41,12 @@ pwb.document.all.classCode.selectedIndex := 4
 7 - 2S (Second Sitting)
 8 - 3E (3AC Economy)
 */
-pwb.document.all.trainNo.value := 12258
-pwb.document.all.boardPoint.value := "ers"  
-pwb.document.all.quota[2].checked := true
-pwb.Navigate("javascript: return setQuota('CK');")
+pwb.document.all.trainNo.value := 16525
+;pwb.document.all.quota[2].checked := true
+;pwb.Navigate("javascript: return setQuota('CK');")
+pwb.document.all.quota[2].click()
+pwb.document.all.boardPoint.value := "ern"
+pwb.document.all.boardPoint1.value := "ern"
 
 
 ;Passenger data filling
@@ -61,10 +65,11 @@ pwb.document.all["childPassengers[0].childPassengerSex"].selectedIndex := 1  ;1-
 pwb.Navigate("javascript:showCal();$('JDate').select();showCalendarControl($('JDate'),'1');")
 While, pwb.Busy
    Continue
-pwb.Navigate("javascript:setCalendarControlDate(2011,2,12);")
+Sleep 100
+pwb.Navigate("javascript:setCalendarControlDate(2011,1,4);")
 While, pwb.Busy
    Continue
-
+Sleep 100
 ;Payment data
 pwb.document.BookTicketForm.gatewayID.selectedIndex := 4
 pwb.Navigate("javascript:GetSerCahrge(document.BookTicketForm.gatewayID.value);")
