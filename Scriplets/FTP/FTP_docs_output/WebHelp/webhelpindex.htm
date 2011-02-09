@@ -1,0 +1,100 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<title>FTP Object Library [AHK_L]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script>
+function window_resize(){
+if(navigator.userAgent.indexOf("MSIE")>-1){
+document.getElementById("Index").style.cssText = "height: " + (document.body.offsetHeight - 90) + "; width: " + (document.body.offsetWidth - 20);
+document.getElementById("keyword").style.cssText = "width: " + (document.body.offsetWidth - 20);
+}else{
+document.getElementById("Index").style.cssText = "height: " + (window.innerHeight- 95) + "; width: " + (window.innerWidth-20);
+document.getElementById("keyword").style.cssText = "width: " + (window.innerWidth-20);
+}
+}
+
+function keyword_change(k){
+	var i;
+	var str;
+	var found = false;
+	if(k.value!=""){
+		var re = new RegExp(k.value,"i");
+		var re1 = new RegExp(String.fromCharCode(160),"g");
+		for(i=0;i<document.getElementById("Index").options.length;i++){
+			str = document.getElementById("Index").options[i].text.replace(re1, " ");
+			 if(found == false && str.search(re) == 0){
+				document.getElementById("Index").options[i].selected = true;	
+				found = true;
+			 }
+		}
+	}
+}
+
+function writepage(list){
+if(list.length==1){
+	parent.content.document.location.href = list[0][1];	
+}else{
+	parent.content.document.write('<h' + 'tml><head><meta http-equiv="Content-Type" content="text/html; charset=Windows-1252"><style type="text/css"><!--div,body { font-family: Tahoma, Verdana; font-size: 12px; }--></style></h' + 'ead><bo' + 'dy>');
+	parent.content.document.write('<b>There are ' + list.length + ' topics for the keyword:</b><p>')
+	for(i=0;i<=list.length-1;i++){
+		parent.content.document.write((i + 1) + '. ' +'<a href="' + list[i][1] + '">' +  list[i][0] + '</a><p>');
+	}
+	parent.content.document.write('</body></html>');
+
+	parent.content.document.close();
+}
+return false;
+}
+
+function display_click(){
+	var i;
+	for(i=0;i<document.getElementById("Index").options.length;i++){
+		 if(document.getElementById("Index").options[i].selected){
+			eval(document.getElementById("Index").options[i].value);
+			break;
+		 }
+	}
+
+
+}
+
+function index_click(){
+	var i;
+	for(i=0;i<document.getElementById("Index").options.length;i++){
+		 if(document.getElementById("Index").options[i].selected){
+			document.getElementById("keyword").value = document.getElementById("Index").options[i].text;
+			break;
+		 }
+	}
+}
+
+</script>
+<script language="JavaScript" src="languages.js"></script>
+<link href="style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body bgcolor="#DCDBD6" leftmargin="5" topmargin="5" marginwidth="5" marginheight="5" onload="window_resize();document.getElementById('keyword').focus();" onresize="window_resize();">
+<form name="form1" method="post" action="">
+  <table width="100%" border="0">
+    <tr>
+      <td><span class="label"><script>document.write(strings['Type in the keyword to find:']);</script></span><br>
+        
+        <input name="keyword" type="text" class="label" id="keyword"  onMouseUp="keyword_change(this);" onKeyUp="keyword_change(this);"> 
+      </td>
+    </tr>
+    <tr> 
+      <td><select name="Index" size="20" class="label" id="Index" onclick="index_click();" ondblclick="display_click();">
+<option value="writepage([['oFTP.FindFirstFile()','scr/Methods/oFTP.FindFirstFile.htm'],['oFTP.FindNextFile()','scr/Methods/oFTP.FindNextFile.htm']]);">.Attribs (property)</option><option value="writepage([['oFTP.FindNextFile()','scr/Methods/oFTP.FindNextFile.htm'],['oFTP.FindFirstFile()','scr/Methods/oFTP.FindFirstFile.htm']]);">.CreationTime (property)</option><option value="writepage([['oFTP.FindFirstFile()','scr/Methods/oFTP.FindFirstFile.htm'],['oFTP.FindNextFile()','scr/Methods/oFTP.FindNextFile.htm']]);">.LastAccessTime (property)</option><option value="writepage([['oFTP.FindNextFile()','scr/Methods/oFTP.FindNextFile.htm'],['oFTP.FindFirstFile()','scr/Methods/oFTP.FindFirstFile.htm']]);">.LastWriteTime (property)</option><option value="writepage([['oFTP.FindNextFile()','scr/Methods/oFTP.FindNextFile.htm'],['oFTP.FindFirstFile()','scr/Methods/oFTP.FindFirstFile.htm']]);">.Name (property)</option><option value="writepage([['oFTP.FindNextFile()','scr/Methods/oFTP.FindNextFile.htm'],['oFTP.FindFirstFile()','scr/Methods/oFTP.FindFirstFile.htm']]);">.Size (property)</option><option value="writepage([['About','scr/About.htm']]);">About</option><option value="writepage([['oFTP.Close()','scr/Methods/oFTP.Close.htm']]);">Close (Method)</option><option value="writepage([['oFTP.CreateDirectory()','scr/Methods/oFTP.CreateDirectory.htm']]);">Create Directory (Method)</option><option value="writepage([['oFTP.DeleteFile()','scr/Methods/oFTP.DeleteFile.htm']]);">Delete File (Method)</option><option value="writepage([['oFTP.FindFirstFile()','scr/Methods/oFTP.FindFirstFile.htm']]);">Find First File (Method)</option><option value="writepage([['oFTP.FindNextFile()','scr/Methods/oFTP.FindNextFile.htm']]);">Find Next File (Method)</option><option value="writepage([['FTP_Init()','scr/FTP_Init.htm']]);">FTP_Init</option><option value="writepage([['oFTP.GetCurrentDirectory()','scr/Methods/oFTP.GetCurrentDirectory.htm']]);">Get Current Directory (Method)</option><option value="writepage([['oFTP.GetFile()','scr/Methods/oFTP.GetFile.htm']]);">Get File (Method)</option> 
+        </select></td>
+    </tr>
+    <tr> 
+      <td align="right"><script>document.write('<input name="display" type="submit" class="label" id="display" onClick="display_click(); return false;" value="' + strings['Display'] + '">')</script></td>
+    </tr>
+  </table>
+
+  </form>
+</body>
+</html>

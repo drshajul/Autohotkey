@@ -1,0 +1,9 @@
+
+.Proxy - Blank by default, set proxy address if required
+.ProxyBypass - Blank by default, set Proxy bypass address if required
+.Port - Port 21 by default
+.hModule - Handle of Wininet module
+.o_hInternet - Handle of Internet open
+.hInternet - Handle of Internet connection (FTP connection)
+.LastError - Error message + Extended error message (if any) in human readable format.
+.InternetConnectFlags - 0 by default, 0x08000000 for INTERNET_FLAG_PASSIVE

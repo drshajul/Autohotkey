@@ -1,0 +1,53 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<title>oFTP.CloseSocket()</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="commands.css" rel="stylesheet" type="text/css">
+<link href="print.css" rel="stylesheet" type="text/css" media="print">
+</head>
+<body><script language="JavaScript" type="text/JavaScript">
+function syn(){
+if(parent.nav.tree){
+ if(parent.nav.tree.loaded){
+  parent.nav.tree.selectNode(4);
+ }else{
+  setTimeout("syn()",500);
+}
+  }else{
+  setTimeout("syn()",500);
+  }}
+if(parent!=self){
+  setTimeout("syn()",100);
+}else{
+  parent.location.href = "../../index.htm#page=Methods/oFTP.CloseSocket.htm";
+}
+originalOnload = window.onload;
+if(originalOnload==null){
+window.onload = function(){parent.contentLoaded = true;};
+}else{
+window.onload = function(){originalOnload();parent.contentLoaded = true;};
+}
+</script> 
+
+
+<h1>oFTP.CloseSocket()</h1>
+<hr size="2">
+<p>Closes session created by oFTP.Open</p>
+
+<p class="CommandSyntax">oFTP.CloseSocket()</p>
+<h4>Parameters</h4>
+<p>None.</p>
+<h4>Return Value</h4>
+True on success, false otherwise
+<h4>Remarks</h4>
+<p>The wininet module and wininet Internet open handles are not released.</p>
+<h4>Related</h4>
+<p><A href=".\oFTP.Open.htm">oFTP.Open()</a>, <A href=".\oFTP.Close.htm">oFTP.Close()</a></p>
+<h4>Example</h4>
+<pre class="NoIndent">oFTP.CloseSocket() <span class="CodeCom"><br>;you can now create a new session with oFTP.Open</span></pre>
+
+</body>
+</html>

@@ -1,0 +1,289 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<title>FTP Object Library [AHK_L]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style type="text/css"> 
+<!-- 
+.selected {font-weight: normal;background-color: #E2E2E2;padding:0px,2px,0px,2px;}
+.unselected { font-weight: normal;padding:0px,2px,0px,2px;}
+.hand { cursor: hand; }
+.p {height: 16px;width: 16px;vertical-align: middle;border: 0;}
+div,body { font-family: Tahoma, Verdana; font-size: 11px; }
+A:link {text-decoration: none; color:#000000}
+A:visited {text-decoration: none; color: #000000}
+A:active {text-decoration: none; color: #000000 }
+A:hover {text-decoration: none; color: #FF0000 }
+
+-->
+</style>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+var cl,pn,pm,bl;
+var path = 'icons/';
+var pos = 0;
+var icon;
+var tar = 'content';
+var display;
+var imgi;
+var AutoCollapse;
+var LastSelected = -1;
+var loaded = false;
+var max;
+var divlist;
+
+function SetEnv(v,a){
+
+if(v==0){ 
+	pn = [['daplus.gif','daminus.gif'],['tplus.gif','tminus.gif'],['uaplus.gif','uaminus.gif'],['splus.gif','sminus.gif']];
+	PreloadImg('downangle.gif','tshaped.gif','upangle.gif','sline.gif','daplus.gif','daminus.gif','tplus.gif','tminus.gif','uaplus.gif','uaminus.gif','splus.gif','sminus.gif','blank.gif','line.gif');
+}else{
+	pn = [['plus.gif','minus.gif']];
+	PreloadImg('plus.gif','minus.gif','blank.gif');
+
+}
+AutoCollapse = a;
+}
+
+ function PreloadImg(){
+if (document.images) { 
+	var imgs = PreloadImg.arguments; 
+	var pload = new Array();
+	for (var i=0; i<imgs.length; i++) { 
+		pload[i] = new Image; 
+		pload[i].src = path + imgs[i]; 
+	} 
+} 
+ } 
+
+function get(o){
+var x;
+if(document.all) x=document.all[o]; 
+if(document.getElementById) x=document.getElementById(o);
+
+return x;
+}
+
+
+function pnImg(img){
+var i,j;
+for(i=0;i<=3;i++){
+	for(j=0;j<=1;j++){
+	if(img.substr(img.lastIndexOf('/') + 1)== pn[i][j]){
+		return i;
+	}
+	}
+}
+}
+function icon(img){
+var f;
+f = img.substr(img.lastIndexOf('/') + 1);
+if( f=='1.gif' || f=='2.gif'){
+	return ['1.gif','2.gif'];
+}
+if( f=='3.gif' || f=='4.gif'){
+	return ['3.gif','4.gif'];
+}
+if( f=='5.gif' || f=='6.gif'){
+	return ['5.gif','6.gif'];
+}
+if( f=='7.gif' || f=='8.gif'){
+	return ['7.gif','8.gif'];
+}
+return [f,f];
+}
+
+function show(id){
+get('d' + id).style.display='block';
+if(get('imgn' + id )) get('imgn' + id ).src= path + pn[pnImg(get('imgn' + id ).src)][1];
+get('img' + id ).src= path + icon(get('img' + id ).src)[1];
+
+}
+
+function collapse(id){
+get('d' + id ).style.display='none';
+if(get('imgn' + id )) get('imgn' + id ).src= path + pn[pnImg(get('imgn' + id ).src)][0];
+get('img' + id ).src= path + icon(get('img' + id ).src)[0];
+
+}
+
+function collapseAll(){
+var i;
+var o;
+for(i=0;i<=divlist.length-1;i++){
+	if(o=get('d' + divlist[i])){
+		if(o.style.display!='none'){ 
+			collapse(divlist[i]);
+		}
+	}
+}
+}
+
+function showAll(){
+var i;
+var o;
+for(i=0;i<=divlist.length-1;i++){
+	if(o=get('d' + divlist[i])){
+		if(o.style.display!='block'){ 
+			show(divlist[i]);
+		}
+	}
+}
+}
+
+function unselectAll(){
+var i=0;
+while(get("l" + i)){
+	get("l" + i).className = "unselected";
+	i++;
+}
+}
+
+function clickNode(index){
+var e;
+
+e = get("l" + index);
+if(e==null) return;
+e = e.parentNode;
+if(e.nodeName == 'A'){
+	if(e.href!= window.location.href + '#'){
+		parent.parent.content.location.href = e.href;
+	}else{
+		selectNode(index);
+	}
+	e.onclick;
+}
+}
+
+function showParent(ele){
+var e;
+e = ele.parentNode;
+
+if(e==null) return;
+
+if(e.nodeName == 'DIV'){
+	if(e.id!='') show(e.id.substring(1,e.id.length ));
+}else if(e.nodeName == 'A'){
+
+}
+showParent(e);
+}
+
+function showNode(index){
+showParent(get("l" + index));
+LinkClick(index);
+}
+
+function selectNode(index){
+if(LastSelected!=index){
+//collapseAll();
+showParent(get("l" + index));
+LinkClick(index);
+get('l' + index).scrollIntoView(true);
+
+
+//alert(get('l' + index).offsetHeight + '|' + document.body.clientHeight + '|' + document.body.offsetHeight);
+window.scrollTo(0,document.body.scrollTop); // - document.body.clientHeight /3);
+}
+}
+
+
+function NodeClick(id){
+if(get('d' + id ).style.display=='none'){
+	show(id);
+}else{
+	collapse(id);
+}
+return false;
+}
+
+function LinkDblClick(id){
+if(!AutoCollapse){
+	if(get('d' + id ).style.display=='none'){
+		show(id);
+	}else{
+		collapse(id);
+	}
+}
+return false;
+}
+
+function LinkClick(index,hasChild,r){
+if(AutoCollapse && hasChild){
+	if(get('d' + index ).style.display=='none'){
+		collapseAll()
+		showParent(get('l' + index));
+		show(index);
+	}else{
+		collapseAll()
+		showParent(get('l' + index));	
+		collapse(index);
+	}
+}
+if(LastSelected!=-1){
+	get('l' + LastSelected).className = "unselected";
+}
+get('l' + index).className = "selected";
+LastSelected = index;
+return r;
+}
+
+function body_onmousemove(event){
+if(typeof(document.body.scrollTop)!='undefined'){
+if(parseInt(event.clientX)<5){
+window.scroll(0,document.body.scrollTop);}}
+if(typeof(window.scrollY)!='undefined'){
+if(parseInt(event.clientX)<5){
+window.scrollTo(0,window.scrollY);}}
+}
+
+window.defaultStatus = '';
+
+function body_onload(){
+get('loading').style.display='none';
+loaded = true;
+if(parent.parent.content.document.readyState){
+	if(parent.parent.content.document.readyState == 'complete'){
+		try{parent.parent.content.syn();}catch(e){};
+	}
+}else{
+	if(parent.parent.contentLoaded){
+		try{parent.parent.content.syn();}catch(e){};
+	}
+}
+}
+
+//-->
+</SCRIPT>
+<script language="JavaScript" src="languages.js"></script>
+
+</head>
+
+<body bgcolor="#ffffff" leftmargin="5" topmargin="5" marginwidth="5" marginheight="5" onmousemove="body_onmousemove(event);" onload="body_onload();">
+<div id="loading"><font color="#FF0000" size="1"> Loading table of contents... 
+</font><br><br></div>
+<script>SetEnv(0,false)</script><div><nobr><img src="icons/downangle.gif" class="p"><a href="scr/About.htm" onclick="return LinkClick('0',false,true)" target="content" title="About" onmousemove="window.status='About'"><img src="icons/11.gif" class="p"> <span id="l0" class="unselected">About</span></a></nobr></div>
+<div><nobr><img src="icons/tshaped.gif" class="p"><a href="scr/FTP_Init.htm" onclick="return LinkClick('1',false,true)" target="content" title="FTP_Init()" onmousemove="window.status='FTP_Init()'"><img src="icons/11.gif" class="p"> <span id="l1" class="unselected">FTP_Init()</span></a></nobr></div>
+<div><nobr><a href="#" onClick="return NodeClick('2')"><img id="imgn2" src="icons/uaplus.gif" class="p"></a><a href="#" onclick="return LinkClick('2',true,false)" onDblClick="return LinkDblClick('2')" target="content" title="Methods" onmousemove="window.status='Methods'"><img id="img2" src="icons/5.gif" class="p"> <span id="l2" class="unselected">Methods</span></a></nobr></div>
+<div id="d2" style="display:none"><div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.Close.htm" onclick="return LinkClick('3',false,true)" target="content" title="oFTP.Close()" onmousemove="window.status='oFTP.Close()'"><img src="icons/11.gif" class="p"> <span id="l3" class="unselected">oFTP.Close()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.CloseSocket.htm" onclick="return LinkClick('4',false,true)" target="content" title="oFTP.CloseSocket()" onmousemove="window.status='oFTP.CloseSocket()'"><img src="icons/11.gif" class="p"> <span id="l4" class="unselected">oFTP.CloseSocket()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.CreateDirectory.htm" onclick="return LinkClick('5',false,true)" target="content" title="oFTP.CreateDirectory()" onmousemove="window.status='oFTP.CreateDirectory()'"><img src="icons/11.gif" class="p"> <span id="l5" class="unselected">oFTP.CreateDirectory()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.DeleteFile.htm" onclick="return LinkClick('6',false,true)" target="content" title="oFTP.DeleteFile()" onmousemove="window.status='oFTP.DeleteFile()'"><img src="icons/11.gif" class="p"> <span id="l6" class="unselected">oFTP.DeleteFile()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.FindFirstFile.htm" onclick="return LinkClick('7',false,true)" target="content" title="oFTP.FindFirstFile()" onmousemove="window.status='oFTP.FindFirstFile()'"><img src="icons/11.gif" class="p"> <span id="l7" class="unselected">oFTP.FindFirstFile()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.FindNextFile.htm" onclick="return LinkClick('8',false,true)" target="content" title="oFTP.FindNextFile()" onmousemove="window.status='oFTP.FindNextFile()'"><img src="icons/11.gif" class="p"> <span id="l8" class="unselected">oFTP.FindNextFile()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.GetCurrentDirectory.htm" onclick="return LinkClick('9',false,true)" target="content" title="oFTP.GetCurrentDirectory()" onmousemove="window.status='oFTP.GetCurrentDirectory()'"><img src="icons/11.gif" class="p"> <span id="l9" class="unselected">oFTP.GetCurrentDirectory()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.GetFile.htm" onclick="return LinkClick('10',false,true)" target="content" title="oFTP.GetFile()" onmousemove="window.status='oFTP.GetFile()'"><img src="icons/11.gif" class="p"> <span id="l10" class="unselected">oFTP.GetFile()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.GetFileInfo.htm" onclick="return LinkClick('11',false,true)" target="content" title="oFTP.GetFileInfo()" onmousemove="window.status='oFTP.GetFileInfo()'"><img src="icons/11.gif" class="p"> <span id="l11" class="unselected">oFTP.GetFileInfo()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.GetFileSize.htm" onclick="return LinkClick('12',false,true)" target="content" title="oFTP.GetFileSize()" onmousemove="window.status='oFTP.GetFileSize()'"><img src="icons/11.gif" class="p"> <span id="l12" class="unselected">oFTP.GetFileSize()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.Open.htm" onclick="return LinkClick('13',false,true)" target="content" title="oFTP.Open()" onmousemove="window.status='oFTP.Open()'"><img src="icons/11.gif" class="p"> <span id="l13" class="unselected">oFTP.Open()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.PutFile.htm" onclick="return LinkClick('14',false,true)" target="content" title="oFTP.PutFile()" onmousemove="window.status='oFTP.PutFile()'"><img src="icons/11.gif" class="p"> <span id="l14" class="unselected">oFTP.PutFile()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.RemoveDirectory.htm" onclick="return LinkClick('15',false,true)" target="content" title="oFTP.RemoveDirectory()" onmousemove="window.status='oFTP.RemoveDirectory()'"><img src="icons/11.gif" class="p"> <span id="l15" class="unselected">oFTP.RemoveDirectory()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.RenameFile.htm" onclick="return LinkClick('16',false,true)" target="content" title="oFTP.RenameFile()" onmousemove="window.status='oFTP.RenameFile()'"><img src="icons/11.gif" class="p"> <span id="l16" class="unselected">oFTP.RenameFile()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.SetCurrentDirectory.htm" onclick="return LinkClick('17',false,true)" target="content" title="oFTP.SetCurrentDirectory()" onmousemove="window.status='oFTP.SetCurrentDirectory()'"><img src="icons/11.gif" class="p"> <span id="l17" class="unselected">oFTP.SetCurrentDirectory()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/tshaped.gif" class="p"><a href="scr/Methods/oFTP.InternetReadFile.htm" onclick="return LinkClick('18',false,true)" target="content" title="oFTP.InternetReadFile()" onmousemove="window.status='oFTP.InternetReadFile()'"><img src="icons/11.gif" class="p"> <span id="l18" class="unselected">oFTP.InternetReadFile()</span></a></nobr></div>
+<div><nobr><img src="icons/blank.gif" class="p"><img src="icons/upangle.gif" class="p"><a href="scr/Methods/oFTP.InternetWriteFile.htm" onclick="return LinkClick('19',false,true)" target="content" title="oFTP.InternetWriteFile()" onmousemove="window.status='oFTP.InternetWriteFile()'"><img src="icons/11.gif" class="p"> <span id="l19" class="unselected">oFTP.InternetWriteFile()</span></a></nobr></div>
+</div><script>divlist = [2]</script>
+</body>
+</html>

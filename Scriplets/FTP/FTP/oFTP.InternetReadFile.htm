@@ -1,0 +1,42 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oFTP.InternetReadFile()</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="commands.css" rel="stylesheet" type="text/css">
+<link href="print.css" rel="stylesheet" type="text/css" media="print">
+</head>
+<body>
+
+<h1>oFTP.InternetReadFile()</h1>
+<hr size="2">
+<p>Downloads a file (with progress bar)</p>
+
+<p class="CommandSyntax">oFTP.InternetReadFile(RemoteFile, &#91;NewLocalFile, FnProgress&#93;)</p>
+<h4>Parameters</h4>
+<table border="1" width="100%" cellspacing="0" cellpadding="3" bordercolor="#C0C0C0">
+<tr>
+<td width="15%">RemoteFile</td>
+<td width="85%"><p>Path of remote file to download</p></td>
+</tr>
+<tr>
+<td width="15%">NewLocalFile</td>
+<td width="85%"><p><i>(Optional)</i> Local file name/path (if omitted, defaults to name of remote file, saved to script directory)</p></td>
+</tr>
+<tr>
+<td width="15%">FnProgress</td>
+<td width="85%"><p><i>(Optional)</i> Name of function to handle progress data (similar to registercallback). If not specified, built in function to show progress is used. (see example)</p></td>
+</tr>
+</table>
+<h4>Return Value</h4>
+True on success, false otherwise.
+<h4>Remarks</h4>
+<p>Use .LastError property to get error data</p>
+<h4>Related</h4>
+<p><a href=".\oFTP.InternetWriteFile.htm">oFTP.InternetWriteFile()</a></p>
+<h4>Example</h4>
+<pre class="NoIndent">oFTP.InternetReadFile(&quot;RTestFile.zip&quot;, &quot;LTestFile.zip&quot;, &quot;MyProgressFunction&quot;)&lt;br&gt;MyProgressFunction() {&lt;br&gt;global oFTP&lt;br&gt;my := oFTP.File&lt;br&gt;static init&lt;br&gt;done := my.BytesTransfered&lt;br&gt;total := my.BytesTotal&lt;br&gt;if ( my.TransferComplete )&lt;br&gt;{&lt;br&gt;Progress, Off&lt;br&gt;init := 0&lt;br&gt;return 1&lt;br&gt;}&lt;br&gt;str_sub := &quot;Time Elapsed - &quot; . Round((my.CurrentTime - my.StartTime)/1000) . &quot; seconds&quot;&lt;br&gt;if !init&lt;br&gt;{&lt;br&gt;str_main := my.LocalName . A_Tab . &quot;-&amp;&#35;62;&quot; . A_Tab . my.RemoteName&lt;br&gt;Progress,B R0-%total% P%done%,%str_sub%, %str_main% ,FTP Transfer Progress&lt;br&gt;init :=1&lt;br&gt;return 1&lt;br&gt;}&lt;br&gt;Progress, %done%&lt;br&gt;Progress,,%str_sub%&lt;br&gt;}</pre>
+
+</body>
+</html>

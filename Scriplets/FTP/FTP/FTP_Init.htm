@@ -1,0 +1,112 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>FTP_Init()</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="commands.css" rel="stylesheet" type="text/css">
+<link href="print.css" rel="stylesheet" type="text/css" media="print">
+</head>
+<body>
+
+<h1>FTP_Init()</h1>
+<hr size="2">
+<p>Initializes and returns the FTP object (MUST be called before any other functions)</p>
+
+<p class="CommandSyntax">FTP_Init(&#91;Proxy, ProxyBypass&#93;)</p>
+<h4>Parameters</h4>
+<table border="1" width="100%" cellspacing="0" cellpadding="3" bordercolor="#C0C0C0">
+<tr>
+<td width="15%">Proxy</td>
+<td width="85%"><p><i>(Optional)</i> Connect via proxy (TIS FTP gateway, Socks only if IE installed)</p></td>
+</tr>
+<tr>
+<td width="15%">ProxyBypass</td>
+<td width="85%"><p><i>(Optional)</i> Bypass addresses from proxy (localhost bypassed by default)</p></td>
+</tr>
+</table>
+<h4>Return Value</h4>
+Returns object with Methods and Properties as described below
+<h4>Remarks</h4>
+<p>Options can be set (see Properties) before calling oFTP.Open() method</p>
+<h4>Related</h4>
+<p><a href=".\oFTP.Open.htm">oFTP.Open()</a>, <a href=".\oFTP.Close.htm">oFTP.Close()</a></p>
+<h4>Example</h4>
+<pre class="NoIndent"><span class="CodeCom">; initialize and get reference to FTP object</span>
+ftp := FTP_Init()
+
+<span class="CodeCom">; connect to FTP server</span>
+if !ftp.Open(&quot;ftp.autohotkey.net&quot;, &quot;myUserName&quot;, &quot;myPassword&quot;)
+  {
+  MsgBox % ftp.LastError
+  ExitApp
+  }
+
+<span class="CodeCom">; get current directory</span>
+sOrgPath := ftp.GetCurrentDirectory()
+if !sOrgPath
+  MsgBox % ftp.LastError
+
+<span class="CodeCom">;; Error handling omitted from here on for brevity</span>
+
+<span class="CodeCom">; upload a file with progress</span>
+ftp.InternetWriteFile( A_ScriptDir . &quot;\FTP.zip&quot; )
+
+<span class="CodeCom">; download a file with progress</span>
+ftp.InternetReadFile( &quot;FTP.zip&quot; , &quot;delete_me.zip&quot;)
+
+<span class="CodeCom">; delete the file</span>
+ftp.DeleteFile(&quot;FTP.zip&quot;)
+
+<span class="CodeCom">; create a new directory 'testing'</span>
+if !ftp.CreateDirectory(&quot;testing&quot;)
+  MsgBox % ftp.LastError
+
+<span class="CodeCom">; set the current directory to 'root/testing'</span>
+ftp.SetCurrentDirectory(&quot;testing&quot;)
+
+<span class="CodeCom">; upload this script file</span>
+ftp.PutFile(A_ScriptFullPath, A_ScriptName)
+
+<span class="CodeCom">; rename script to 'mytestscript.ahk'</span>
+ftp.RenameFile(A_ScriptName, &quot;MyTestScript.ahk&quot;)
+
+<span class="CodeCom">; enumerate the file list from the current directory ('root/testing')</span>
+item := ftp.FindFirstFile(&quot;/testing/*&quot;)
+MsgBox % &quot;Name : &quot; . item.Name
+ . &quot;`nCreationTime : &quot; . item.CreationTime
+ . &quot;`nLastAccessTime : &quot; . item.LastAccessTime
+ . &quot;`nLastWriteTime : &quot; . item.LastWriteTime
+ . &quot;`nSize : &quot; . item.Size
+ . &quot;`nAttribs : &quot; . item.Attribs
+Loop
+{
+  if !(item := FTP_FindNextFile())
+    break
+  MsgBox % &quot;Name : &quot; . item.Name
+   . &quot;`nCreationTime : &quot; . item.CreationTime
+   . &quot;`nLastAccessTime : &quot; . item.LastAccessTime
+   . &quot;`nLastWriteTime : &quot; . item.LastWriteTime
+   . &quot;`nSize : &quot; . item.Size
+   . &quot;`nAttribs : &quot; . item.Attribs
+}
+
+<span class="CodeCom">; retrieve the file from the FTP server</span>
+ftp.GetFile(&quot;MyTestScript.ahk&quot;, A_ScriptDir . &quot;\MyTestScript.ahk&quot;, 0)
+
+<span class="CodeCom">; delete the file from the FTP server</span>
+ftp.DeleteFile(&quot;MyTestScript.ahk&quot;)
+
+<span class="CodeCom">; set the current directory back to the root</span>
+ftp.SetCurrentDirectory(sOrgPath)
+
+<span class="CodeCom">; remove the direcrtory 'testing'</span>
+ftp.RemoveDirectory(&quot;testing&quot;)
+
+<span class="CodeCom">; close the FTP connection, free library</span>
+ftp.Close()
+
+&#35;Include FTP.ahk</pre>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oFTP.Open()</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="commands.css" rel="stylesheet" type="text/css">
+<link href="print.css" rel="stylesheet" type="text/css" media="print">
+</head>
+<body>
+
+<h1>oFTP.Open()</h1>
+<hr size="2">
+<p>Opens an FTP connection and returns the FTP object on success, 0 on failure</p>
+
+<p class="CommandSyntax">FTP_Open(Server, &#91;Username, Password&#93;)</p>
+<h4>Parameters</h4>
+<table border="1" width="100%" cellspacing="0" cellpadding="3" bordercolor="#C0C0C0">
+<tr>
+<td width="15%">Server</td>
+<td width="85%"><p>FTP server</p></td>
+</tr>
+<tr>
+<td width="15%">Username</td>
+<td width="85%"><p><i>(Optional)</i> Username</p></td>
+</tr>
+<tr>
+<td width="15%">Password</td>
+<td width="85%"><p><i>(Optional)</i> Password</p></td>
+</tr>
+</table>
+<h4>Return Value</h4>
+True on success, false otherwise.
+<h4>Remarks</h4>
+<p>Port, Proxy/ProxyBypass, InternetConnectFlags can be set beforehand &#91;see Properties in FTP_Init()&#93;</p>
+<h4>Related</h4>
+<p><a href=".\FTP_Init.htm">FTP_Init()</a>, <a href=".\oFTP.CloseSocket.htm">oFTP.CloseSocket()</a>, <a href=".\oFTP.Close.htm">oFTP.Close()</a></p>
+<h4>Example</h4>
+<pre class="NoIndent">oFTP.Open(&quot;ftp.autohotkey.net&quot;, &quot;myUserName&quot;, &quot;myPassword&quot;)</pre>
+
+</body>
+</html>

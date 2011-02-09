@@ -1,0 +1,79 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html><head>
+  <title>About</title>
+
+  
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  
+  <link href="commands.css" rel="stylesheet" type="text/css">
+
+  
+  <link href="print.css" rel="stylesheet" type="text/css" media="print">
+
+</head><body><script language="JavaScript" type="text/JavaScript">
+function syn(){
+if(parent.nav.tree){
+ if(parent.nav.tree.loaded){
+  parent.nav.tree.selectNode(0);
+ }else{
+  setTimeout("syn()",500);
+}
+  }else{
+  setTimeout("syn()",500);
+  }}
+if(parent!=self){
+  setTimeout("syn()",100);
+}else{
+  parent.location.href = "../index.htm#page=About.htm";
+}
+originalOnload = window.onload;
+if(originalOnload==null){
+window.onload = function(){parent.contentLoaded = true;};
+}else{
+window.onload = function(){originalOnload();parent.contentLoaded = true;};
+}
+</script> 
+
+<h1>About / Credits<br>
+</h1>
+
+<hr size="2">
+<p style="FONT-WEIGHT: bold"><big>FTP objects by <a href="http://www.autohotkey.com/forum/profile.php?mode=viewprofile&amp;u=3523">shajul</a></big></p>
+
+<p>Original FTP Functions by Olfen &amp; Andreone - <a href="http://www.autohotkey.com/forum/viewtopic.php?t=10393">thread
+10393</a><br>
+Modified by ahklerner - <a href="http://www.autohotkey.com/forum/viewtopic.php?p=170587#170587">post</a><br>
+<br>
+Modified by me for AHK_L, <BR>- added object syntax <BR>- 
+added GetCurrentDirectory() <BR>- corrected FileTime retrieval from 
+Win32_Find_Data structure <BR>
+- created documentation (thanks fincs for GenDocs and Scite4Autohotkey)</p>
+
+
+<p class="CommandSyntax"><A 
+href="http://www.autohotkey.com/forum/viewtopic.php?t=67370"><FONT size=4>Home 
+Thread</FONT></A><FONT size=4>&nbsp;| </FONT>  <A 
+href="http://www.autohotkey.net/~shajul/Projects/FTP/docs/"><FONT size=4>Documentation</FONT></A><FONT size=4> | 
+</FONT>  
+<A href="http://www.autohotkey.net/~shajul/Projects/FTP/FTP.zip"><FONT size=4>Download</FONT></A><FONT size=4> </FONT>    <br>
+</p>
+<P><STRONG></STRONG>&nbsp;</P>
+<P><STRONG>Changelog:</STRONG></P>
+
+<p>Update 2011-01-17: <BR>- Added FTP_Init(), which needs to 
+be called first to retrieve Object reference <BR>- Error/Extended Error (if any) 
+is retrieved in human readable form [.LastError property] <BR>- FTP connection 
+properties can be set (see documentation) <BR>
+ - Uses only one global variable (an object)</p>
+
+<p>Update 2011-01-21: <BR>- Added .InternetReadFile() and 
+.InternetWriteFile() methods <BR>
+  - Progress indicator for uploads and downloads</p>
+
+<p>Update 2011-02-03:<BR>- Bugfixes<BR>- FTP_Init() now has 
+two optional parameters - Proxy and ProxyBypass<BR>
+     - oFTP.CloseSocket() function added</p>
+</body></html>

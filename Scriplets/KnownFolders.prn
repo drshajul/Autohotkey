@@ -1,0 +1,88 @@
+PARAM                      MEANING
+---------------------------------------------------
+AdminTools                 Administrative Tools
+CDBurning                  Temporary Burn Folder
+CommonAdminTools           Administrative Tools
+CommonOEMLinks             OEM Links
+CommonPrograms             Programs
+CommonStartMenu            Start Menu
+CommonStartup              Startup
+CommonTemplates            Templates
+Contacts                   Contacts
+Cookies                    Cookies
+Desktop                    Desktop
+DeviceMetadataStore        DeviceMetadataStore
+DocumentsLibrary           Documents
+Downloads                  Downloads
+Favorites                  Favorites
+Fonts                      Fonts
+GameTasks                  GameExplorer
+History                    History
+ImplicitAppShortcuts       ImplicitAppShortcuts
+InternetCache              Temporary Internet Files
+Libraries                  Libraries
+Links                      Links
+LocalAppData               Local
+LocalAppDataLow            LocalLow
+LocalizedResourcesDir      None
+Music                      Music
+MusicLibrary               Music
+NetHood                    Network Shortcuts
+OriginalImages             Original Images
+PhotoAlbums                Slide Shows
+Pictures                   Pictures
+PicturesLibrary            Pictures
+Playlists                  Playlists
+PrintHood                  Printer Shortcuts
+Profile                    The user's username (%USERNAME%)
+ProgramData                ProgramData
+ProgramFiles               Program Files
+ProgramFilesCommon         Common Files
+ProgramFilesCommonX64      Common Files
+ProgramFilesCommonX86      Common Files
+ProgramFilesX64            Program Files
+ProgramFilesX86            Program Files
+Programs                   Programs
+Public                     Public
+PublicDesktop              Public Desktop
+PublicDocuments            Public Documents
+PublicDownloads            Public Downloads
+PublicGameTasks            GameExplorer
+PublicLibraries            Libraries
+PublicMusic                Public Music
+PublicPictures             Public Pictures
+PublicRingtones            Ringtones
+PublicVideos               Public Videos
+QuickLaunch                Quick Launch
+Recent                     Recent Items
+RecordedTVLibrary          Recorded TV
+ResourceDir                Resources
+Ringtones                  Ringtones
+RoamingAppData             Roaming
+SampleMusic                Sample Music
+SamplePictures             Sample Pictures
+SamplePlaylists            Sample Playlists
+SampleVideos               Sample Videos
+SavedGames                 Saved Games
+SavedSearches              Searches
+SendTo                     SendTo
+SidebarDefaultParts        Gadgets
+SidebarParts               Gadgets
+StartMenu                  Start Menu
+Startup                    Startup
+System                     System32
+SystemX86                  System32
+Templates                  Templates
+UserPinned                 User Pinned
+UserProfiles               Users
+UserProgramFiles           Programs
+UserProgramFilesCommon     Programs
+Videos                     Videos
+VideosLibrary              Videos
+Windows                    Windows
+ALTSTARTUP                 Similar to Startup (CSLID)
+COMMON_ALTSTARTUP          Similar to Common_Startup (CSLID)
+COMMON_FAVORITES           Common Favorites (CSLID)
+COMPUTERSNEARME            Similar to NetworkNHood (CSLID)
+DESKTOPDIRECTORY           Similar to Desktop (CSLID)
+PERSONAL                   Similar to My Documents (CSLID)

@@ -1,0 +1,182 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<title>FTP_Init()</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="commands.css" rel="stylesheet" type="text/css">
+<link href="print.css" rel="stylesheet" type="text/css" media="print">
+</head>
+<body><script language="JavaScript" type="text/JavaScript">
+function syn(){
+if(parent.nav.tree){
+ if(parent.nav.tree.loaded){
+  parent.nav.tree.selectNode(1);
+ }else{
+  setTimeout("syn()",500);
+}
+  }else{
+  setTimeout("syn()",500);
+  }}
+if(parent!=self){
+  setTimeout("syn()",100);
+}else{
+  parent.location.href = "../index.htm#page=FTP_Init.htm";
+}
+originalOnload = window.onload;
+if(originalOnload==null){
+window.onload = function(){parent.contentLoaded = true;};
+}else{
+window.onload = function(){originalOnload();parent.contentLoaded = true;};
+}
+</script> 
+
+
+<h1>FTP_Init()</h1>
+<hr size="2">
+<p>Initializes and returns the FTP object (<FONT 
+color=#ff0000><STRONG>MUST be called before any other 
+functions</STRONG></FONT>            )</p>
+
+<p class="CommandSyntax">FTP_Init([Proxy, ProxyBypass])</p>
+
+<h4>Parameters</h4>
+
+<table border="1" width="100%" cellspacing="0" cellpadding="3" bordercolor="#c0c0c0">
+
+<tr>
+
+<td width="15%">Proxy</td>
+
+<td width="85%"><p><i>(Optional)</i> Connect via proxy (TIS FTP gateway, Socks only if IE installed)</p></td>
+
+</tr>
+
+<tr>
+
+<td width="15%">ProxyBypass</td>
+
+<td width="85%"><p><i>(Optional)</i> Bypass addresses from proxy (localhost bypassed by default)</p></td>
+
+</tr>
+
+</table>
+
+<h4>Return Value</h4>
+Returns object with Methods and Properties as described below
+<h4>Remarks</h4>
+<p>Options can be set (see Properties) before calling oFTP.Open() method</p>
+<h4>Methods</h4>
+<table border="1" bordercolor="#c0c0c0" cellpadding="3" cellspacing="0" width="100%">
+<tbody><tr>
+</tr><tr><td width="25%"><A href="Methods/oFTP.Open.htm">.Open()</A></td><td width="75%"><p>&nbsp;Connect to FTP server<br></p></td>
+</tr><tr><td width="25%"><A href="Methods/oFTP.GetCurrentDirectory.htm">.GetCurrentDirectory()</A></td><td width="75%"><p>&nbsp;Get current directory path on FTP server<br></p></td>
+</tr><tr><td width="25%"><A href="Methods/oFTP.SetCurrentDirectory.htm">.SetCurrentDirectory()</A></td><td width="75%"><p>&nbsp;Sets the current directory path on FTP server</p></td>
+</tr><tr><td width="25%"><A href="Methods/oFTP.CreateDirectory.htm">.CreateDirectory()</A></td><td width="75%"><p>&nbsp;Creates a new directory on FTP server</p></td>
+</tr><tr><td width="25%"><A href="Methods/oFTP.RemoveDirectory.htm">.RemoveDirectory()</A></td><td width="75%"><p>&nbsp;Deletes a directory on FTP server</p></td>
+</tr><tr><td width="25%"><A href="Methods/oFTP.PutFile.htm">.PutFile()</A></td><td width="75%"><p>&nbsp;Uploads a file to FTP location</p></td>
+</tr><tr><td width="25%"><A href="Methods/oFTP.GetFile.htm">.GetFile()</A></td><td width="75%"><p>&nbsp;Retrieves a file</p></td></tr>
+<tr><td width="25%"><A href="Methods/oFTP.GetFileSize.htm">.GetFileSize()</A></td><td width="75%"><p>&nbsp;Get file size<br></p></td></tr>
+<tr><td width="25%"><A href="Methods/oFTP.DeleteFile.htm">.DeleteFile()</A></td><td width="75%"><p>&nbsp;Delete a remote file<br></p></td></tr>
+<tr><td width="25%"><A href="Methods/oFTP.RenameFile.htm">.RenameFile()</A></td><td width="75%"><p>&nbsp;Rename a remote file<br></p></td></tr>
+<tr><td width="25%"><A href="Methods/oFTP.Close.htm">.Close()</A></td><td width="75%"><p>&nbsp;Close FTP connection and cleanup<br></p></td></tr>
+<tr><td width="25%"><A href="Methods/oFTP.CloseSocket.htm">.CloseSocket()</A></td><td width="75%"><p>&nbsp;Close FTP connection and cleanup<br></p></td></tr>
+<tr><td width="25%"><A href="Methods/oFTP.GetFileInfo.htm">.GetFileInfo()</A></td><td width="75%"><p>&nbsp;Get File info from WIN32_FIND_DATA structure</p></td></tr>
+<tr><td width="25%"><A href="Methods/oFTP.FindFirstFile.htm">.FindFirstFile()</A></td><td width="75%"><p>&nbsp;Returns an object with file details<br></p></td></tr>
+<tr><td width="25%"><A href="Methods/oFTP.FindNextFile.htm">.FindNextFile()</A></td><td width="75%"><p>&nbsp;Returns an object with file details</p></td></tr>
+<tr><td width="25%"><A href="Methods/oFTP.InternetReadFile.htm">.InternetReadFile()</A></td><td width="75%"><p>&nbsp;Downloads a file (with progress bar)<br></p></td></tr>
+<tr><td width="25%"><A href="Methods/oFTP.InternetWriteFile.htm">.InternetWriteFile()</A></td><td width="75%"><p>&nbsp;Uploads a file (with progress bar)</p></td></tr>
+</tbody></table>
+
+<h4>Properties</h4>
+<table border="1" bordercolor="#c0c0c0" cellpadding="3" cellspacing="0" width="100%">
+<tbody><tr></tr>
+<tr><td width="25%">.Port</td><td width="75%"><p>&nbsp;Port 21 by default<br></p></td></tr>
+<tr><td width="25%">.hModule</td><td width="75%"><p>&nbsp;Handle of Wininet module<br></p></td></tr>
+<tr><td width="25%">.o_hInternet</td><td width="75%"><p>&nbsp;Handle of Internet open<br></p></td></tr>
+<tr><td width="25%">.hInternet</td><td width="75%"><p>&nbsp;Handle of FTP session (after oFTP.Open has been called)<br></p></td></tr>
+<tr><td width="25%">.LastError</td><td width="75%"><p>&nbsp;Error message + Extended error message (if any) in human readable format<br></p></td></tr>
+<tr><td width="25%">.InternetConnectFlags</td><td width="75%"><p>&nbsp;0 by default, 0x08000000 for INTERNET_FLAG_PASSIVE<br></p></td></tr>
+</tbody></table>
+<h4>Related</h4>
+<p><A href=".\FTP_Open.htm">FTP_Open()</A></p>
+<h4>Example</h4>
+<pre class="NoIndent"><span class="CodeCom">; initialize and get reference to FTP object</span>
+ftp := FTP_Init()
+
+<span class="CodeCom">; connect to FTP server</span>
+if !ftp.Open("ftp.autohotkey.net", "myUserName", "myPassword")
+  {
+  MsgBox % ftp.LastError
+  ExitApp
+  }
+
+<span class="CodeCom">; get current directory</span>
+sOrgPath := ftp.GetCurrentDirectory()
+if !sOrgPath
+  MsgBox % ftp.LastError
+  
+<span class="CodeCom">; upload a file with progress</span>
+ftp.InternetWriteFile( A_ScriptDir . "\FTP.zip" )
+
+<span class="CodeCom">; download a file with progress</span>
+ftp.InternetReadFile( "FTP.zip" , "delete_me.zip")
+
+<span class="CodeCom">; delete the file</span>
+ftp.DeleteFile("FTP.zip")
+
+<span class="CodeCom">; create a new directory 'testing'</span>
+if !ftp.CreateDirectory("testing")
+  MsgBox % ftp.LastError
+
+<span class="CodeCom">;; Error-checking code omitted from here on for brevity</span>
+
+<span class="CodeCom">; set the current directory to 'root/testing'</span>
+ftp.SetCurrentDirectory("testing")
+
+<span class="CodeCom">; upload this script file</span>
+ftp.PutFile(A_ScriptFullPath, A_ScriptName)
+
+<span class="CodeCom">; rename script to 'mytestscript.ahk'</span>
+ftp.RenameFile(A_ScriptName, "MyTestScript.ahk")
+
+<span class="CodeCom">; enumerate the file list from the current directory ('root/testing')</span>
+item := ftp.FindFirstFile("/testing/*")
+MsgBox % "Name : " . item.Name
+ . "`nCreationTime : " . item.CreationTime
+ . "`nLastAccessTime : " . item.LastAccessTime
+ . "`nLastWriteTime : " . item.LastWriteTime
+ . "`nSize : " . item.Size
+ . "`nAttribs : " . item.Attribs
+Loop
+{
+  if !(item := FTP_FindNextFile())
+    break
+  MsgBox % "Name : " . item.Name
+   . "`nCreationTime : " . item.CreationTime
+   . "`nLastAccessTime : " . item.LastAccessTime
+   . "`nLastWriteTime : " . item.LastWriteTime
+   . "`nSize : " . item.Size
+   . "`nAttribs : " . item.Attribs
+}
+
+<span class="CodeCom">; retrieve the file from the FTP server</span>
+ftp.GetFile("MyTestScript.ahk", A_ScriptDir . "\MyTestScript.ahk", 0)
+
+<span class="CodeCom">; delete the file from the FTP server</span>
+ftp.DeleteFile("MyTestScript.ahk")
+
+<span class="CodeCom">; set the current directory back to the root</span>
+ftp.SetCurrentDirectory(sOrgPath)
+
+<span class="CodeCom">; remove the direcrtory 'testing'</span>
+ftp.RemoveDirectory("testing")
+
+<span class="CodeCom">; close the FTP connection, free library</span>
+ftp.Close()
+
+#Include FTP.ahk</pre>
+
+</body>
+</html>

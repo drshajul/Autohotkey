@@ -1,0 +1,42 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oFTP.PutFile()</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="commands.css" rel="stylesheet" type="text/css">
+<link href="print.css" rel="stylesheet" type="text/css" media="print">
+</head>
+<body>
+
+<h1>oFTP.PutFile()</h1>
+<hr size="2">
+<p>Puts a file to FTP location</p>
+
+<p class="CommandSyntax">oFTP.PutFile(LocalFile, &#91;NewRemoteFile, Flags&#93;)</p>
+<h4>Parameters</h4>
+<table border="1" width="100%" cellspacing="0" cellpadding="3" bordercolor="#C0C0C0">
+<tr>
+<td width="15%">LocalFile</td>
+<td width="85%"><p>Existing file name</p></td>
+</tr>
+<tr>
+<td width="15%">NewRemoteFile</td>
+<td width="85%"><p>Remote path to the file to be created (fully qualified path or relative path to current dir)</p></td>
+</tr>
+<tr>
+<td width="15%">Flags</td>
+<td width="85%"><p>See remarks</p></td>
+</tr>
+</table>
+<h4>Return Value</h4>
+True on success
+<h4>Remarks</h4>
+<p>Flags:<br>FTP_TRANSFER_TYPE_UNKNOWN = 0 (Defaults to FTP_TRANSFER_TYPE_BINARY)<br>FTP_TRANSFER_TYPE_ASCII = 1<br>FTP_TRANSFER_TYPE_BINARY = 2</p>
+<h4>Related</h4>
+<p><a href=".\oFTP.GetFile.htm">oFTP.GetFile()</a></p>
+<h4>Example</h4>
+<pre class="NoIndent">oFTP.PutFile(&quot;LocalFile.ahk&quot;, &quot;MyTestScript.ahk&quot;, 0)</pre>
+
+</body>
+</html>

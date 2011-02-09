@@ -1,0 +1,31 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<title>FTP Object Library [AHK_L]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script>
+var LocString=String(window.document.location.href);
+var DefaultPage;
+function GetQueryString(str){
+    var rs=new RegExp("(^|)"+str+"=([^\&]*)(\&|$)","gi").exec(LocString),tmp;
+    if(tmp=rs)return tmp[2];
+    return null;
+    }
+DefaultPage = GetQueryString("page");
+if(DefaultPage==null || DefaultPage==''){
+	DefaultPage = escape('FTP_Init.htm');
+}
+</script>
+</head>
+<script>
+document.write('<frameset rows="*" cols="270,*" framespacing="5" frameborder="yes" border="5" bordercolor="">');
+document.write('<frame src="webhelpleft.htm" name="nav" frameborder="yes" scrolling="no" bordercolor="" id="nav">');
+document.write('<frame src="scr/' +  DefaultPage + '" name="content" frameborder="yes" bordercolor="" scrolling="auto" id="content">');
+document.write('</frameset>');
+</script>
+
+<noframes><body>
+
+</body></noframes>
+</html>

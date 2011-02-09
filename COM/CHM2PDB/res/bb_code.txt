@@ -1,0 +1,67 @@
+Let me present to you a small program that i have made..
+
+After searching through the net for a reader for CHM files, i was frustrated.  :confused:  
+So i have compiled a program that will [B]convert your CHM files to iSilo PDB[/B], so that they can be easily read with iSilo PDB reader!
+
+The [B]user interface[/B] is very simple, infact you just have to point towards the source file and the destination folder!!  :cool: 
+
+Any suggestions / comments are welcome.  :) 
+
+
+[URL=http://rapidshare.com/files/109374502/CHM2PDB_Converter.zip.html]Download Here[/URL] 
+
+
+[COLOR=DarkRed][B]Shajul CHM to Isilo PDB converter v1.0 README[/B][/COLOR]
+======================================
+Read all you CHM files on PocketPC, Palm OS, Smartphone with ISILO Reader! 
+
+
+1. Licence
+2. Overview
+3. Installation and Requirements
+4. Usage
+5. Credits
+6. [URL=http://rapidshare.com/files/109374502/CHM2PDB_Converter.zip.html]Download Here[/URL] 
+
+[B]1. Licence[/B]
+==========
+Freeware.
+No warranties whatsoever. By using this software, you agree that you will be 
+responsible for all the consequenses!
+
+
+[B]2. Overview[/B]
+===========
+Convert CHM files (Compiled Windows Help) to ISILO PDB files.
+
+(CHM files are nothing but a bunch of html files compiled into one CHM file!)
+
+
+[B]3. Installation and Requirements[/B]
+================================
+- Extract the downloaded package.
+- Run CHM2PDBConvert.exe
+
+The package requires:
+  1. Windows XP (HH.exe)
+  2. IsiloX (Html to PDB converter)
+  3. CHM files to convert
+  
+
+[B]4. Usage[/B]
+========
+Usage is pretty straightforward. 
+ - Run CHM2PDBConvert.exe.
+ - Fill in the required feilds.
+ - Hit "GO"
+ - Hotsync the resultant PDB file to your handheld.
+ 
+If you want to change the settings of the Html to PDB conversion by iSiloX, make
+a backup of template.ixl and then edit template.ixl file in notepad/notepad [B]replacement software!
+ 
+5. Credits[/B]
+==========
+hhc2html.exe - provided by robmh (http://forum.isilo.com/showthread.php?p=418#post418)
+
+Rest of the software has been made by shajul (my-virtual-home.blogspot.com)
+	 

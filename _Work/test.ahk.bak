@@ -1,0 +1,45 @@
+FolderID_RoamingAppData := "{3EB685DB-65F9-4CF6-A03A-E3EF65729F3D}"
+FolderID_LocalAppData := "{F1B32785-6FBA-4FCF-9D55-7B8E7F157091}"
+FolderID_LocalAppDataLow := "{A520A1A4-1780-4FF6-BD18-167343C5AF16}"
+SetGUID(rfid, FolderID_LocalAppData)
+VarSetCapacity(mypath,(A_IsUnicode ? 2 : 1)*260)
+r := DllCall("Shell32\SHGetKnownFolderPath", "UInt", &rfid, "UInt", 0, "UInt", 0, "UIntP", mypath)
+if (r or ErrorLevel)
+   MsgBox % GetSysErrorText(A_LastError)
+MsgBox % StrGet(mypath)
+ExitApp
+
+SetGUID(ByRef GUID, String) {
+VarSetCapacity(GUID, 16, 0)
+StringReplace,String,String,-,,All
+NumPut("0x" . SubStr(String, 2,  8), GUID, 0,  "UInt")   ; DWORD Data1
+NumPut("0x" . SubStr(String, 10, 4), GUID, 4,  "UShort") ; WORD  Data2
+NumPut("0x" . SubStr(String, 14, 4), GUID, 6,  "UShort") ; WORD  Data3
+Loop, 8
+   NumPut("0x" . SubStr(String, 16+(A_Index*2), 2), GUID, 7+A_Index,  "UChar")  ; BYTE  Data4[A_Index]
+}
+
+
+LoadFolderID() {
+global
+
+}
+
+GetSysErrorText(errNr) ;http://msdn.microsoft.com/en-us/library/ms679351(v=vs.85).aspx
+{ ; http://www.autohotkey.com/forum/post-72230.html#72230 by PhiLho
+  bufferSize = 1024 ; Arbitrary, should be large enough for most uses
+  VarSetCapacity(buffer, bufferSize)
+  DllCall("FormatMessage"
+     , "UInt", FORMAT_MESSAGE_FROM_SYSTEM := 0x1000
+     , "UInt", 0
+     , "UInt", errNr
+     , "UInt", 0 ;0 - looks in following order -> langNuetral->thread->user->system->USEnglish ;LANG_USER_DEFAULT := 0x20000 ; LANG_SYSTEM_DEFAULT := 0x10000
+     , "Str", buffer
+     , "UInt", bufferSize
+     , "UInt", 0)
+  Return buffer
+}
+
+
+ExitApp
+runwait, C:\Users\Dr Shajul\AppData\Local\Google\Chrome\Application\chrome.exe --user-data-dir="..\User Data\Ulterior" -first-run

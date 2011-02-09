@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<iSiloXDocumentList>
+  <iSiloXDocument>
+    <Source>
+      <Sources>
+        <Path>*mysourcepath*</Path>
+      </Sources>
+    </Source>
+    <Destination>
+      <Title>*mytitle*</Title>
+      <Files>
+        <Path>*mydestinationpath*</Path>
+      </Files>
+    </Destination>
+    <LinkOptions>
+      <MaximumDepth value="3"/>
+      <FollowOffsite value="no"/>
+      <MaximumOffsiteDepth value="1"/>
+      <SubDirOnly value="no"/>
+      <UnresolvedDetail value="include"/>
+    </LinkOptions>
+    <ImageOptions>
+      <AltText value="exclude"/>
+      <Images value="include"/>
+      <ResizeLargeImages value="yes"/>
+      <ImproveContrast value="yes"/>
+      <Dither value="yes"/>
+      <MaximumWidth value="480"/>
+      <MaximumHeight value="320"/>
+      <Compress value="yes"/>
+      <BitDepth1 value="exclude"/>
+      <BitDepth2 value="exclude"/>
+      <BitDepth4 value="exclude"/>
+      <BitDepth8 value="exclude"/>
+      <BitDepth16 value="include"/>
+      <LossyLevel value="none"/>
+      <LossyQuality value="75"/>
+    </ImageOptions>
+    <TableOptions>
+      <IgnoreTables value="no"/>
+      <AddSeparators value="no"/>
+      <UseMinimumDepth value="no"/>
+      <MinimumDepth value="1"/>
+      <UseMaximumBottomReach value="no"/>
+      <MaximumBottomReach value="1"/>
+      <UnfoldFullPageTables value="no"/>
+      <IgnorePixelWidths value="no"/>
+    </TableOptions>
+    <ColorOptions>
+      <BackgroundColors value="keep"/>
+      <TextColors value="keep"/>
+    </ColorOptions>
+    <MarginOptions>
+      <LeftRightMargins value="keep"/>
+      <LeftRightPadding value="keep"/>
+    </MarginOptions>
+    <SecurityOptions>
+      <Convert value="allow"/>
+      <CopyBeam value="allow"/>
+      <CopyAndPaste value="allow"/>
+      <Modify value="allow"/>
+      <Print value="allow"/>
+    </SecurityOptions>
+    <TextOptions>
+      <PreUseMonospaceFont value="yes"/>
+      <PreSingleLineBreaks value="KeepAll"/>
+      <ProcessLineBreaks value="yes"/>
+      <ConvertSingleLineBreaks value="no"/>
+      <Preformatted value="no"/>
+      <UseMonospaceFont value="no"/>
+      <MonospaceFontSize value="10"/>
+      <TabStopWidth value="8"/>
+    </TextOptions>
+    <DocumentOptions>
+      <PageBounds value="hard"/>
+      <UseDefaultCategory value="no"/>
+      <HomePageNumber value="1"/>
+      <OpenHomePageOnDateChange value="no"/>
+    </DocumentOptions>
+    <Bookmarks>
+      <Document>
+        <UseFile value="no"/>
+        <UseNamedAnchors value="no"/>
+        <NamedAnchorType value="WordWebPage"/>
+        <UseIncludeFilter value="no"/>
+        <UseExcludeFilter value="no"/>
+      </Document>
+    </Bookmarks>
+    <LastConversion>
+      <Size value="0"/>
+    </LastConversion>
+    <Messages>
+      <Notes>converted with chm2pdb converter, (c) shajul.</Notes>
+      <AuthorName>CHM 2 PDB converter</AuthorName>
+      <AuthorContact>my-virtual-world.blogspot.com</AuthorContact>
+    </Messages>
+  </iSiloXDocument>
+</iSiloXDocumentList>

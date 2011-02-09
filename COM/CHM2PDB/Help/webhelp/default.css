@@ -1,0 +1,7 @@
+a:link,a:active,a:visited,a.postlink {color:#1E5798;text-decoration:none;}
+a:hover {color:#85A4C2;}
+body { background-color: white; font-family: Tahoma, Arial; text-align : justify;}
+body, table { font-size: 10pt }
+.chitemsel { background-color:#B1CEEB; color: black; padding:2px; }
+h1,h2,h3,h4 { color: #1E5798 }
+
