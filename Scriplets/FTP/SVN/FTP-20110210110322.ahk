@@ -281,7 +281,7 @@ FTP_InternetWriteFile(LocalFile, NewRemoteFile="", FnProgress = "FTP_Progress") 
   if !oFile
     Return 0 , DllCall("wininet\InternetCloseHandle",  "UInt", hFile) , ftp_$obj$.LastError := "File not found!"
 
-  my.BytesTotal := oFile.Length , blocks := Floor(oFile.Length/my.BufferSize) , my.StartTime := A_TickCount
+  my.BytesTotal := oFile.Length , blocks := Round(oFile.Length/my.BufferSize) , my.StartTime := A_TickCount
   VarSetCapacity(Buffer,my.BufferSize)
   Loop, %blocks%
   {
@@ -361,7 +361,7 @@ FTP_InternetReadFile(RemoteFile, NewLocalFile = "", FnProgress = "FTP_Progress")
     Return 0 , DllCall("wininet\InternetCloseHandle",  "UInt", hFile) , ftp_$obj$.LastError := "File could not be created!"
 
   my.BytesTotal := DllCall("wininet\FtpGetFileSize", "uint", hFile, "uint", 0)
-  blocks := Floor(my.BytesTotal/my.BufferSize) , my.StartTime := A_TickCount
+  blocks := Round(my.BytesTotal/my.BufferSize) , my.StartTime := A_TickCount
   VarSetCapacity(Buffer,my.BufferSize)
 
   Loop, %blocks%

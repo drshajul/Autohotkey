@@ -281,7 +281,7 @@ FTP_InternetWriteFile(LocalFile, NewRemoteFile="", FnProgress = "FTP_Progress") 
   if !oFile
     Return 0 , DllCall("wininet\InternetCloseHandle",  "UInt", hFile) , ftp_$obj$.LastError := "File not found!"
 
-  my.BytesTotal := oFile.Length , blocks := Round(oFile.Length/my.BufferSize) , my.StartTime := A_TickCount
+  my.BytesTotal := oFile.Length , blocks := Floor(oFile.Length/my.BufferSize) , my.StartTime := A_TickCount
   VarSetCapacity(Buffer,my.BufferSize)
   Loop, %blocks%
   {
@@ -361,7 +361,7 @@ FTP_InternetReadFile(RemoteFile, NewLocalFile = "", FnProgress = "FTP_Progress")
     Return 0 , DllCall("wininet\InternetCloseHandle",  "UInt", hFile) , ftp_$obj$.LastError := "File could not be created!"
 
   my.BytesTotal := DllCall("wininet\FtpGetFileSize", "uint", hFile, "uint", 0)
-  blocks := Round(my.BytesTotal/my.BufferSize) , my.StartTime := A_TickCount
+  blocks := Floor(my.BytesTotal/my.BufferSize) , my.StartTime := A_TickCount
   VarSetCapacity(Buffer,my.BufferSize)
 
   Loop, %blocks%
@@ -745,7 +745,7 @@ GetModuleErrorText(hModule,errNr) ;http://msdn.microsoft.com/en-us/library/ms679
 		VarSetCapacity(ErrorMsg,4)
 		DllCall("wininet\InternetGetLastResponseInfo", "UIntP", &ErrorMsg, "UInt", &buffer, "UIntP", &bufferSize)
 		Msg := StrGet(&buffer,bufferSize)
-		Return "Error : " . Msg
+		Return "Error : " errNr . "`n" . Msg
 	}
 	DllCall("FormatMessage"
 	 , "UInt", FORMAT_MESSAGE_FROM_HMODULE := 0x00000800
